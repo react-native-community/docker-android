@@ -7,7 +7,6 @@ LABEL maintainer="Héctor Ramos <hector@fb.com>"
 ARG SDK_VERSION=sdk-tools-linux-3859397.zip
 ARG ANDROID_BUILD_VERSION=27
 ARG ANDROID_TOOLS_VERSION=27.0.3
-ARG BUCK_VERSION=v2018.10.29.01
 ARG NDK_VERSION=17c
 ARG WATCHMAN_VERSION=4.9.0
 
@@ -49,9 +48,8 @@ COPY node-setup.sh /tmp
 RUN /tmp/node-setup.sh
 
 # download buck and build buck
-RUN git clone https://github.com/facebook/buck.git /opt/buck --branch $BUCK_VERSION --depth=1 \
-    && cd /opt/buck \
-    && ant
+COPY buck-setup.sh /tmp
+RUN /tmp/buck-setup.sh
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
