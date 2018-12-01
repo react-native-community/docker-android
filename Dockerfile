@@ -45,13 +45,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
-RUN echo "deb https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sources.list.d/nodesource.list \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
-    && curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
-    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends nodejs yarn \
-    && rm -rf /var/lib/apt/lists/*
+COPY node-setup.sh /tmp
+RUN /tmp/node-setup.sh
 
 # download buck and build buck
 RUN git clone https://github.com/facebook/buck.git /opt/buck --branch $BUCK_VERSION --depth=1 \
