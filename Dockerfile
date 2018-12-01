@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         qml-module-qtquick-controls \
         qtdeclarative5-dev \
         unzip \
-        rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
 RUN echo "deb https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sources.list.d/nodesource.list \
