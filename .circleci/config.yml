@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  test:
+    machine: true
+    working_directory: ~/project
+    steps:
+      - checkout
+      - run:
+          name: Build docker image
+          command: |
+            docker build -t react-native-community/react-native .
+      - run:
+          name: Test
+          command: |
+            git clone https://github.com/facebook/react-native
+            cd react-native
+            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native /bin/sh -c "npm i && ./gradlew RNTester:android:app:assembleRelease"
+
+workflows:
+  version: 2
+  perfs:
+    jobs:
+      - test
