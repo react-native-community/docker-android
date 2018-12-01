@@ -53,12 +53,10 @@ RUN echo "deb https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sour
     && apt-get install -y --no-install-recommends nodejs yarn \
     && rm -rf /var/lib/apt/lists/*
 
-# download buck
-RUN git clone https://github.com/facebook/buck.git /opt/buck --branch $BUCK_VERSION --depth=1
-WORKDIR /opt/buck
-
-# build buck
-RUN ant
+# download buck and build buck
+RUN git clone https://github.com/facebook/buck.git /opt/buck --branch $BUCK_VERSION --depth=1 \
+    && cd /opt/buck \
+    && ant
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
