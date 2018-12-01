@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM openjdk:8-slim
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 LABEL maintainer="Héctor Ramos <hector@fb.com>"
@@ -13,7 +13,6 @@ ARG NODE_VERSION=lts
 ARG WATCHMAN_VERSION=4.9.0
 
 # set default environment variables
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV ADB_INSTALL_TIMEOUT=10
 ENV PATH=${PATH}:/opt/buck/bin/
 ENV ANDROID_HOME=/opt/android
@@ -36,7 +35,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         lib32stdc++6 \
         make \
         maven \
-        openjdk-8-jdk-headless \
         python-dev \
         python3-dev \
         qml-module-qtquick-controls \
