@@ -1,4 +1,4 @@
-FROM library/ubuntu:16.04
+FROM openjdk:8-slim
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 LABEL maintainer="Héctor Ramos <hector@fb.com>"
@@ -13,7 +13,6 @@ ARG NODE_VERSION=lts
 ARG WATCHMAN_VERSION=4.9.0
 
 # set default environment variables
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV ADB_INSTALL_TIMEOUT=10
 ENV PATH=${PATH}:/opt/buck/bin/
 ENV ANDROID_HOME=/opt/android
@@ -23,14 +22,36 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 ENV PATH=${PATH}:${ANDROID_NDK}
 
 # install system dependencies
-RUN apt-get update && apt-get install ant autoconf automake curl g++ gcc git libqt5widgets5 lib32z1 lib32stdc++6 make maven npm openjdk-8* python-dev python3-dev qml-module-qtquick-controls qtdeclarative5-dev unzip -y
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ant \
+        apt-transport-https \
+        autoconf \
+        automake \
+        curl \
+        g++ \
+        gcc \
+        git \
+        gnupg2 \
+        libqt5widgets5 \
+        lib32z1 \
+        lib32stdc++6 \
+        make \
+        maven \
+        python-dev \
+        python3-dev \
+        qml-module-qtquick-controls \
+        qtdeclarative5-dev \
+        unzip \
+    && rm -rf /var/lib/apt/lists/*;
 
-# configure npm && install node, yarn
-RUN npm config set spin=false && \
-    npm config set progress=false && \
-    npm install n -g && \
-    n $NODE_VERSION && \
-    npm i -g yarn
+# install nodejs and yarn packages from nodesource and yarn apt sources
+RUN echo "deb https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sources.list.d/nodesource.list \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
+    && curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends nodejs yarn \
+    && rm -rf /var/lib/apt/lists/*
 
 # download buck
 RUN git clone https://github.com/facebook/buck.git /opt/buck --branch $BUCK_VERSION --depth=1
