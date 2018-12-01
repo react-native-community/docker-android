@@ -63,15 +63,15 @@ RUN ant
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
 RUN mkdir /opt/android && \
- cd /opt/android && \
- curl --silent https://dl.google.com/android/repository/${SDK_VERSION} > android.zip && \
- unzip android.zip && \
- rm android.zip
+  cd /opt/android && \
+  curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o android.zip && \
+  unzip android.zip && \
+  rm android.zip
 
 # download and unpack NDK
 RUN mkdir /opt/ndk && \
   cd /opt/ndk && \
-  curl --silent https://dl.google.com/android/repository/android-ndk-r$NDK_VERSION-linux-x86_64.zip > ndk.zip && \
+  curl -sS https://dl.google.com/android/repository/android-ndk-r$NDK_VERSION-linux-x86_64.zip -o ndk.zip && \
   unzip ndk.zip && \
   rm ndk.zip
 
