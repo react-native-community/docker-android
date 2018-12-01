@@ -9,7 +9,7 @@ ARG ANDROID_BUILD_VERSION=27
 ARG ANDROID_TOOLS_VERSION=27.0.3
 ARG BUCK_VERSION=v2018.10.29.01
 ARG NDK_VERSION=17c
-ARG NODE_VERSION=8.10.0
+ARG NODE_VERSION=lts
 ARG WATCHMAN_VERSION=4.9.0
 
 # set default environment variables
@@ -25,13 +25,12 @@ ENV PATH=${PATH}:${ANDROID_NDK}
 # install system dependencies
 RUN apt-get update && apt-get install ant autoconf automake curl g++ gcc git libqt5widgets5 lib32z1 lib32stdc++6 make maven npm openjdk-8* python-dev python3-dev qml-module-qtquick-controls qtdeclarative5-dev unzip -y
 
-# configure npm
+# configure npm && install node, yarn
 RUN npm config set spin=false && \
-    npm config set progress=false
-
-# install node
-RUN npm install n -g
-RUN n $NODE_VERSION
+    npm config set progress=false && \
+    npm install n -g && \
+    n $NODE_VERSION && \
+    npm i -g yarn
 
 # download buck
 RUN git clone https://github.com/facebook/buck.git /opt/buck --branch $BUCK_VERSION --depth=1
