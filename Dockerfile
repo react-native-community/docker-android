@@ -9,7 +9,6 @@ ARG ANDROID_BUILD_VERSION=27
 ARG ANDROID_TOOLS_VERSION=27.0.3
 ARG BUCK_VERSION=v2018.10.29.01
 ARG NDK_VERSION=17c
-ARG NODE_VERSION=lts
 ARG WATCHMAN_VERSION=4.9.0
 
 # set default environment variables
@@ -28,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         autoconf \
         automake \
         curl \
+        dirmngr \
         g++ \
         gcc \
         git \

@@ -8,8 +8,8 @@ apt-key adv --fetch-keys https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 apt-key adv --fetch-keys https://dl.yarnpkg.com/debian/pubkey.gpg
 
-apt-get update \
-apt-get install -y --no-install-recommends \
+apt-get update -qq
+apt-get install -qq -y --no-install-recommends \
     nodejs \
     yarn
 rm -rf /var/lib/apt/lists/*
