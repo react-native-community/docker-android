@@ -1,4 +1,4 @@
-FROM library/ubuntu:16.04
+FROM debian:stretch-slim
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 LABEL maintainer="Héctor Ramos <hector@fb.com>"
@@ -23,14 +23,31 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 ENV PATH=${PATH}:${ANDROID_NDK}
 
 # install system dependencies
-RUN apt-get update && apt-get install ant autoconf automake curl g++ gcc git libqt5widgets5 lib32z1 lib32stdc++6 make maven npm openjdk-8* python-dev python3-dev qml-module-qtquick-controls qtdeclarative5-dev unzip -y
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ant \
+        autoconf \
+        automake \
+        curl \
+        g++ \
+        gcc \
+        git \
+        libqt5widgets5 \
+        lib32z1 \
+        lib32stdc++6 \
+        make \
+        maven \
+        openjdk-8-jdk-headless \
+        python-dev \
+        python3-dev \
+        qml-module-qtquick-controls \
+        qtdeclarative5-dev \
+        unzip
 
-# configure npm && install node, yarn
-RUN npm config set spin=false && \
-    npm config set progress=false && \
-    npm install n -g && \
-    n $NODE_VERSION && \
-    npm i -g yarn
+# install nodejs and yarn packages from nodesource and yarn apt sources
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && apt get install -y --no-install-recommends nodejs yarn
 
 # download buck
 RUN git clone https://github.com/facebook/buck.git /opt/buck --branch $BUCK_VERSION --depth=1
