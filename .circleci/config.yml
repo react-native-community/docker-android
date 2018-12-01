@@ -6,12 +6,15 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Run Code Perf
+          name: Build docker image
           command: |
             docker build -t react-native-community/react-native .
-            git clone https://github.com/gengjiawen/react-native
+      - run:
+          name: Test
+          command: |
+            git clone https://github.com/facebook/react-native
             cd react-native
-            docker run --rm --name hei -v $PWD:/pwd -w /pwd react-native-community/react-native /bin/sh -c "./gradlew RNTester:android:app:assembleRelease"
+            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native /bin/sh -c "./gradlew RNTester:android:app:assembleRelease"
 
 workflows:
   version: 2
