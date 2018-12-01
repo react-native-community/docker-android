@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         g++ \
         gcc \
         git \
+        gnupg2 \
         libqt5widgets5 \
         lib32z1 \
         lib32stdc++6 \
