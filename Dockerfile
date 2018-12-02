@@ -7,7 +7,6 @@ LABEL maintainer="Héctor Ramos <hector@fb.com>"
 ARG SDK_VERSION=sdk-tools-linux-3859397.zip
 ARG ANDROID_BUILD_VERSION=27
 ARG ANDROID_TOOLS_VERSION=27.0.3
-ARG NDK_VERSION=17c
 ARG WATCHMAN_VERSION=4.9.0
 
 # set default environment variables
@@ -16,7 +15,7 @@ ENV PATH=${PATH}:/opt/buck/bin/
 ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
-ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
+ENV ANDROID_NDK=/opt/ndk/android-ndk
 ENV PATH=${PATH}:${ANDROID_NDK}
 
 # install system dependencies
@@ -59,12 +58,8 @@ RUN mkdir /opt/android && \
   unzip android.zip && \
   rm android.zip
 
-# download and unpack NDK
-RUN mkdir /opt/ndk && \
-  cd /opt/ndk && \
-  curl -sS https://dl.google.com/android/repository/android-ndk-r$NDK_VERSION-linux-x86_64.zip -o ndk.zip && \
-  unzip ndk.zip && \
-  rm ndk.zip
+COPY android-ndk-setup.sh /tmp
+RUN /tmp/android-ndk-setup.sh
 
 # Add android SDK tools
 RUN yes | sdkmanager --licenses && sdkmanager --update
