@@ -25,6 +25,7 @@ ENV PATH=${PATH}:${ANDROID_NDK}
 RUN apt-get update && apt-get install -y --no-install-recommends \
         apt-transport-https \
         curl \
+        file \
         git \
         gnupg2 \
         openjdk-8-jre \
