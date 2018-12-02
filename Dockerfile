@@ -3,12 +3,6 @@ FROM openjdk:8-slim
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 LABEL maintainer="Héctor Ramos <hector@fb.com>"
 
-# set default build arguments
-ARG SDK_VERSION=sdk-tools-linux-3859397.zip
-ARG ANDROID_BUILD_VERSION=27
-ARG ANDROID_TOOLS_VERSION=27.0.3
-ARG WATCHMAN_VERSION=4.9.0
-
 # set default environment variables
 ENV ADB_INSTALL_TIMEOUT=10
 ENV PATH=${PATH}:/opt/buck/bin/
@@ -50,25 +44,9 @@ RUN /tmp/node-setup.sh
 COPY buck-setup.sh /tmp
 RUN /tmp/buck-setup.sh
 
-# Full reference at https://dl.google.com/android/repository/repository2-1.xml
-# download and unpack android
-RUN mkdir /opt/android && \
-  cd /opt/android && \
-  curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o android.zip && \
-  unzip android.zip && \
-  rm android.zip
-
 COPY android-ndk-setup.sh /tmp
 RUN /tmp/android-ndk-setup.sh
 
 # Add android SDK tools
-RUN yes | sdkmanager --licenses && sdkmanager --update
-RUN sdkmanager "system-images;android-19;google_apis;armeabi-v7a" \
-    "platform-tools" \
-    "platforms;android-$ANDROID_BUILD_VERSION" \
-    "build-tools;$ANDROID_TOOLS_VERSION" \
-    "add-ons;addon-google_apis-google-23" \
-    "extras;android;m2repository"
-
-# clean up unnecessary directories
-RUN rm -rf /opt/android/.android
+COPY android-sdk-setup.sh /tmp
+RUN /tmp/android-sdk-setup.sh
