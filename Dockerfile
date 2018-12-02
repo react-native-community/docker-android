@@ -7,7 +7,7 @@ LABEL maintainer="Héctor Ramos <hector@fb.com>"
 ARG SDK_VERSION=sdk-tools-linux-3859397.zip
 ARG ANDROID_BUILD_VERSION=27
 ARG ANDROID_TOOLS_VERSION=27.0.3
-ARG BUCK_VERSION=v2018.10.29.01
+ARG BUCK_VERSION=2018.10.29.01
 ARG NDK_VERSION=17c
 ARG NODE_VERSION=lts
 ARG WATCHMAN_VERSION=4.9.0
@@ -23,24 +23,13 @@ ENV PATH=${PATH}:${ANDROID_NDK}
 
 # install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        ant \
         apt-transport-https \
-        autoconf \
-        automake \
         curl \
-        g++ \
-        gcc \
+        file \
         git \
         gnupg2 \
-        libqt5widgets5 \
-        lib32z1 \
-        lib32stdc++6 \
-        make \
-        maven \
-        python-dev \
-        python3-dev \
-        qml-module-qtquick-controls \
-        qtdeclarative5-dev \
+        openjdk-8-jre \
+        python \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
 
@@ -53,10 +42,10 @@ RUN echo "deb https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sour
     && apt-get install -y --no-install-recommends nodejs yarn \
     && rm -rf /var/lib/apt/lists/*
 
-# download buck and build buck
-RUN git clone https://github.com/facebook/buck.git /opt/buck --branch $BUCK_VERSION --depth=1 \
-    && cd /opt/buck \
-    && ant
+# download and install buck using debian package
+RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
+    && dpkg -i /tmp/buck.deb \
+    && rm /tmp/buck.deb
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
