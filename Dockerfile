@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         openjdk-8-jre \
         python \
         unzip \
+        wget \
     && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
@@ -42,7 +43,7 @@ RUN echo "deb https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sour
     && rm -rf /var/lib/apt/lists/*
 
 # download and install buck using debian package
-RUN curl -sS https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
+RUN wget -q https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -O /tmp/buck.deb \
     && dpkg -i /tmp/buck.deb \
     && rm /tmp/buck.deb
 
