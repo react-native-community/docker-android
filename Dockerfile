@@ -22,7 +22,7 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 ENV PATH=${PATH}:${ANDROID_NDK}
 
 # install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
         file \
@@ -38,14 +38,14 @@ RUN echo "deb https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sour
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
     && curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends nodejs yarn \
+    && apt-get update -qq \
+    && apt-get install -qq -y --no-install-recommends nodejs yarn \
     && rm -rf /var/lib/apt/lists/*
 
 # download and unpack NDK
 RUN curl -sS https://dl.google.com/android/repository/android-ndk-r$NDK_VERSION-linux-x86_64.zip -o /tmp/ndk.zip \
     && mkdir /opt/ndk \
-    && unzip -d /opt/ndk /tmp/ndk.zip \
+    && unzip -q -d /opt/ndk /tmp/ndk.zip \
     && rm /tmp/ndk.zip
 
 # download and install buck using debian package
@@ -57,7 +57,7 @@ RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSI
 # download and unpack android
 RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
     && mkdir /opt/android \
-    && unzip  -d /opt/android /tmp/sdk.zip \
+    && unzip -q -d /opt/android /tmp/sdk.zip \
     && rm /tmp/sdk.zip
 
 # Add android SDK tools
