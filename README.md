@@ -6,6 +6,9 @@
 ## Motivation
 This is an implementation of https://github.com/react-native-community/discussions-and-proposals/blob/master/proposals/0003-Official-Docker.md.
 
+## Showcase
+https://github.com/react-native-community/ci-sample
+
 ## Dockerhub Image
 see https://hub.docker.com/r/reactnativecommunity/react-native-android/
 
