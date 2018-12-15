@@ -18,7 +18,7 @@ jobs:
       - run:
           name: docker info
           command: |
-            docker run --rm --name rn-env /bin/sh -c "npm i -g envinfo && envinfo"
+            docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npm i -g envinfo && envinfo"
 
 workflows:
   version: 2
