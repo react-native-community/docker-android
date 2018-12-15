@@ -15,6 +15,10 @@ jobs:
             git clone https://github.com/facebook/react-native --depth=1
             cd react-native
             docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native /bin/sh -c "yarn install && ./gradlew RNTester:android:app:assembleRelease"
+      - run:
+          name: docker info
+          command: |
+            docker run --rm --name rn-env /bin/sh -c "npm i -g envinfo && envinfo"
 
 workflows:
   version: 2
