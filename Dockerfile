@@ -25,6 +25,7 @@ ENV PATH=${PATH}:${ANDROID_NDK}
 RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
+        build-essential \
         file \
         git \
         gnupg2 \
