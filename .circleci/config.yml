@@ -10,21 +10,23 @@ jobs:
           command: |
             docker build -t react-native-community/react-native .
       - run:
-          name: Test Avd
-          command: |
-            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native bash -c \
-              "chmod +x ./test-avd.sh && ./test-avd.sh"
-      - run:
-          name: Test react-native repo
+          name: Test
           command: |
             git clone https://github.com/facebook/react-native --depth=1
             cd react-native
-            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native bash -c \
+            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native /bin/sh -c \
               "yarn install && ./gradlew RNTester:android:app:assembleRelease && ./scripts/circleci/buck_fetch.sh"
       - run:
-          name: Docker info
+          name: docker info
           command: |
-            docker run --rm --name rn-env react-native-community/react-native bash -c "npm i -g envinfo && envinfo"
+            docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npm i -g envinfo && envinfo"
+      - run:
+          name: Push docker
+          command: |
+            source ~/.bashrc
+            nvm i node
+            npm i -g envinfo && envinfo
+            node publish_docker.js
 
 workflows:
   version: 2
