@@ -60,14 +60,13 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
     && unzip -q -d /opt/android /tmp/sdk.zip \
     && rm /tmp/sdk.zip
 
+RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg \
+    && yes | sdkmanager --licenses && sdkmanager --update
+
 # Add android SDK tools
-RUN yes | sdkmanager --licenses && sdkmanager --update
 RUN sdkmanager "system-images;android-19;google_apis;armeabi-v7a" \
     "platform-tools" \
     "platforms;android-$ANDROID_BUILD_VERSION" \
     "build-tools;$ANDROID_TOOLS_VERSION" \
     "add-ons;addon-google_apis-google-23" \
     "extras;android;m2repository"
-
-# clean up unnecessary directories
-RUN rm -rf /opt/android/.android
