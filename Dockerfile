@@ -15,7 +15,7 @@ ENV ADB_INSTALL_TIMEOUT=10
 ENV PATH=${PATH}:/opt/buck/bin/
 ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
-ENV PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+ENV PATH=${PATH}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
 ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 ENV ANDROID_NDK_HOME=/opt/ndk/android-ndk-r$NDK_VERSION
 ENV PATH=${PATH}:${ANDROID_NDK}
@@ -60,13 +60,14 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
     && unzip -q -d /opt/android /tmp/sdk.zip \
     && rm /tmp/sdk.zip
 
-RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg \
-    && yes | sdkmanager --licenses && sdkmanager --update
 
 # Add android SDK tools
-RUN sdkmanager "system-images;android-19;google_apis;armeabi-v7a" \
-    "platform-tools" \
-    "platforms;android-$ANDROID_BUILD_VERSION" \
-    "build-tools;$ANDROID_TOOLS_VERSION" \
-    "add-ons;addon-google_apis-google-23" \
-    "extras;android;m2repository"
+RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg \
+    && yes | sdkmanager --licenses && sdkmanager --update \
+    && sdkmanager "platform-tools" \
+        "emulator" \
+        "platforms;android-$ANDROID_BUILD_VERSION" \
+        "build-tools;$ANDROID_TOOLS_VERSION" \
+        "add-ons;addon-google_apis-google-23" \
+        "system-images;android-19;google_apis;armeabi-v7a" \
+        "extras;android;m2repository"
