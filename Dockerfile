@@ -6,7 +6,7 @@ LABEL Description="This image provides a base Android development environment fo
 ARG SDK_VERSION=sdk-tools-linux-3859397.zip
 ARG ANDROID_BUILD_VERSION=28
 ARG ANDROID_TOOLS_VERSION=28.0.2
-ARG BUCK_VERSION=2018.10.29.01
+ARG BUCK_VERSION=2019.01.10.01
 ARG NDK_VERSION=17c
 ARG WATCHMAN_VERSION=4.9.0
 
@@ -28,7 +28,6 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends \
         file \
         git \
         gnupg2 \
-        openjdk-8-jre \
         python \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
