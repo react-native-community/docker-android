@@ -28,6 +28,7 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends \
         file \
         git \
         gnupg2 \
+        openjdk-8-jre \
         python \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
