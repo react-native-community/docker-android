@@ -3,9 +3,9 @@ FROM openjdk:8-slim
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
 # set default build arguments
-ARG SDK_VERSION=sdk-tools-linux-3859397.zip
+ARG SDK_VERSION=sdk-tools-linux-4333796.zip
 ARG ANDROID_BUILD_VERSION=28
-ARG ANDROID_TOOLS_VERSION=28.0.2
+ARG ANDROID_TOOLS_VERSION=28.0.3
 ARG BUCK_VERSION=2019.01.10.01
 ARG NDK_VERSION=17c
 ARG WATCHMAN_VERSION=4.9.0
@@ -62,7 +62,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
 
 
 # Add android SDK tools
-RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg \
+RUN cd ~ && mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg \
     && yes | sdkmanager --licenses && sdkmanager --update \
     && yes | sdkmanager "platform-tools" \
         "emulator" \
