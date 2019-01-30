@@ -4,7 +4,7 @@
 [![Docker Layers](https://images.microbadger.com/badges/image/reactnativecommunity/react-native-android.svg)](https://hub.docker.com/r/reactnativecommunity/react-native-android)
 
 ## Motivation
-This is an implementation of https://github.com/react-native-community/discussions-and-proposals/blob/master/proposals/0003-Official-Docker.md.
+This is an implementation of https://github.com/react-native-community/discussions-and-proposals/blob/master/proposals/0005-Official-Docker.md.
 
 ## Showcase
 https://github.com/react-native-community/ci-sample
@@ -14,4 +14,4 @@ see https://hub.docker.com/r/reactnativecommunity/react-native-android/
 
 Name may change later, see https://github.com/react-native-community/docker-android/issues/7.
 
-Original version is split from react-native repo, see https://github.com/facebook/react-native/blob/master/ContainerShip/Dockerfile.android-base.
+Original version is split from react-native repo, see https://github.com/facebook/react-native/blob/9abe34ca78861a9445529d00a468176f115c803f/DockerTests.md .
