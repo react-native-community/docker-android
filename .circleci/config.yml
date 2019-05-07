@@ -40,7 +40,7 @@ workflows:
   version: 2
   main:
     jobs:
-      - test:
+      - test
       - deploy:
           filters:
             branches:
