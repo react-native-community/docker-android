@@ -58,7 +58,7 @@ RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSI
 RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
     && mkdir ${ANDROID_HOME} \
     && unzip -q -d ${ANDROID_HOME} /tmp/sdk.zip \
-    && rm /tmp/sdk.zip
+    && rm /tmp/sdk.zip \
     && yes | sdkmanager --licenses \
     && yes | sdkmanager "platform-tools" \
         "emulator" \
