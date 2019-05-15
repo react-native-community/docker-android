@@ -6,7 +6,7 @@ LABEL Description="This image provides a base Android development environment fo
 ARG SDK_VERSION=sdk-tools-linux-4333796.zip
 ARG ANDROID_BUILD_VERSION=28
 ARG ANDROID_TOOLS_VERSION=28.0.3
-ARG BUCK_VERSION=2019.05.06.01
+ARG BUCK_VERSION=2019.05.14.01
 ARG NDK_VERSION=17c
 ARG WATCHMAN_VERSION=4.9.0
 
@@ -63,11 +63,12 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
 
 # Add android SDK tools
 RUN cd ~ && mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg \
-    && yes | sdkmanager --licenses && sdkmanager --update \
+    && yes | sdkmanager --licenses \
     && yes | sdkmanager "platform-tools" \
         "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "add-ons;addon-google_apis-google-23" \
         "system-images;android-19;google_apis;armeabi-v7a" \
-        "extras;android;m2repository"
+        "extras;android;m2repository" \
+    && sdkmanager --update
