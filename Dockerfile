@@ -63,11 +63,12 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
 
 # Add android SDK tools
 RUN cd ~ && mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg \
-    && yes | sdkmanager --licenses && sdkmanager --update \
+    && yes | sdkmanager --licenses \
     && yes | sdkmanager "platform-tools" \
         "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "add-ons;addon-google_apis-google-23" \
         "system-images;android-19;google_apis;armeabi-v7a" \
-        "extras;android;m2repository"
+        "extras;android;m2repository" \
+    && sdkmanager --update
