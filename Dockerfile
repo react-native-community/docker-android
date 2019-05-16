@@ -56,19 +56,13 @@ RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSI
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
 RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
-    && mkdir /opt/android \
-    && unzip -q -d /opt/android /tmp/sdk.zip \
-    && rm /tmp/sdk.zip
-
-
-# Add android SDK tools
-RUN cd ~ && mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg \
+    && mkdir ${ANDROID_HOME} \
+    && unzip -q -d ${ANDROID_HOME} /tmp/sdk.zip \
+    && rm /tmp/sdk.zip \
     && yes | sdkmanager --licenses \
     && yes | sdkmanager "platform-tools" \
         "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
-        "add-ons;addon-google_apis-google-23" \
-        "system-images;android-19;google_apis;armeabi-v7a" \
-        "extras;android;m2repository" \
-    && sdkmanager --update
+        "system-images;android-19;default;armeabi-v7a" \
+        "extras;android;m2repository"
