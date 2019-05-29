@@ -30,7 +30,7 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends \
         gnupg2 \
         openjdk-8-jre \
         python \
-        ssh \
+        openssh-client \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
 
