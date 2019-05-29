@@ -20,6 +20,9 @@ ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
 ENV ANDROID_NDK_HOME=/opt/ndk/android-ndk-r$NDK_VERSION
 ENV PATH=${PATH}:${ANDROID_NDK}
 
+# See https://github.com/debuerreotype/docker-debian-artifacts/issues/24
+RUN mkdir -p /usr/share/man/man1
+
 # install system dependencies
 RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends \
         apt-transport-https \
