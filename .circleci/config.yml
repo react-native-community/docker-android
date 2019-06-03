@@ -6,7 +6,7 @@ defaults: &defaults
 
 aliases:
   - &build-docker
-    name: Install curl
+    name: Build Docker Image
     command: |
       docker build -t react-native-community/react-native .
       docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
