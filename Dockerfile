@@ -1,4 +1,4 @@
-FROM debian:stable-slim
+FROM openjdk:8-slim
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
@@ -22,15 +22,13 @@ ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID
 
 # Install system dependencies
 # See https://github.com/debuerreotype/docker-debian-artifacts/issues/24
-RUN mkdir -p /usr/share/man/man1 \
-    && apt-get update -qq && apt-get install -qq -y --no-install-recommends \
+RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
         build-essential \
         file \
         git \
         gnupg2 \
-        openjdk-8-jdk \
         python \
         openssh-client \
         unzip \
