@@ -28,6 +28,7 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends \
         build-essential \
         file \
         git \
+        openjdk-8-jre \
         gnupg2 \
         python \
         openssh-client \
