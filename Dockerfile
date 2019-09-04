@@ -16,7 +16,6 @@ ENV ADB_INSTALL_TIMEOUT=10
 ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
