@@ -1,4 +1,4 @@
-FROM openjdk:8-slim
+FROM openjdk:8
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
