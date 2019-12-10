@@ -29,10 +29,27 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         openjdk-8-jre \
         gnupg2 \
         python \
-        ruby-full \
         openssh-client \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
+
+# install latest Ruby using ruby-install
+RUN apt-get update -qq \
+  && apt-get install -qq -y --no-install-recommends \
+          bison \
+          zlib1g-dev \
+          libyaml-dev \
+          libssl-dev \
+          libgdbm-dev \
+          libreadline-dev \
+          libncurses5-dev \
+          libffi-dev \
+  && curl -L https://github.com/postmodern/ruby-install/archive/v0.7.0.tar.gz | tar -zxvf - -C /tmp/ \
+  && cd /tmp/ruby-install-* \
+  && make install \
+  && ruby-install --latest --system --cleanup ruby \
+  && gem install bundler -N \
+  && rm -rf /var/lib/apt/lists/*
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
 RUN echo "deb https://deb.nodesource.com/node_${NODE_VERSION} stretch main" > /etc/apt/sources.list.d/nodesource.list \
