@@ -29,7 +29,6 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         openjdk-8-jre \
         gnupg2 \
         python \
-        ruby-full \
         openssh-client \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
