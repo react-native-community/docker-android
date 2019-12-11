@@ -69,7 +69,7 @@ RUN curl -sS https://dl.google.com/android/repository/android-ndk-r$NDK_VERSION-
 # download and install buck using debian package
 RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
     && dpkg -i /tmp/buck.deb \
-    && rm /tmp/buck.deb
+    && rm /tmp/buck.deb \
     && cd ~
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
