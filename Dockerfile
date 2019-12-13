@@ -69,8 +69,7 @@ RUN curl -sS https://dl.google.com/android/repository/android-ndk-r$NDK_VERSION-
 # download and install buck using debian package
 RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
     && dpkg -i /tmp/buck.deb \
-    && rm /tmp/buck.deb \
-    && cd ~
+    && rm /tmp/buck.deb
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
@@ -87,4 +86,5 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "add-ons;addon-google_apis-google-23" \
         "system-images;android-19;google_apis;armeabi-v7a" \
-        "extras;android;m2repository"
+        "extras;android;m2repository" \
+    && rm -rf /opt/android/.android
