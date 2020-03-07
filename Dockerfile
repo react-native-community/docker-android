@@ -7,7 +7,7 @@ ARG SDK_VERSION=sdk-tools-linux-4333796.zip
 ARG ANDROID_BUILD_VERSION=29
 ARG ANDROID_TOOLS_VERSION=29.0.2
 ARG BUCK_VERSION=2019.10.17.01
-ARG NDK_VERSION=20
+ARG NDK_VERSION=20.0.5594570
 ARG NODE_VERSION=12.x
 ARG WATCHMAN_VERSION=4.9.0
 
@@ -15,7 +15,7 @@ ARG WATCHMAN_VERSION=4.9.0
 ENV ADB_INSTALL_TIMEOUT=10
 ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
-ENV ANDROID_NDK=/opt/ndk/android-ndk-r$NDK_VERSION
+ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
@@ -60,12 +60,6 @@ RUN echo "deb https://deb.nodesource.com/node_${NODE_VERSION} stretch main" > /e
     && apt-get install -qq -y --no-install-recommends nodejs yarn \
     && rm -rf /var/lib/apt/lists/*
 
-# download and unpack NDK
-RUN curl -sS https://dl.google.com/android/repository/android-ndk-r$NDK_VERSION-linux-x86_64.zip -o /tmp/ndk.zip \
-    && mkdir /opt/ndk \
-    && unzip -q -d /opt/ndk /tmp/ndk.zip \
-    && rm /tmp/ndk.zip
-
 # download and install buck using debian package
 RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
     && dpkg -i /tmp/buck.deb \
@@ -87,4 +81,5 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "add-ons;addon-google_apis-google-23" \
         "system-images;android-19;google_apis;armeabi-v7a" \
         "extras;android;m2repository" \
+        "ndk;$NDK_VERSION" \
     && rm -rf /opt/android/.android
