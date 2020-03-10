@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM ubuntu
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
@@ -26,7 +26,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         build-essential \
         file \
         git \
-        openjdk-8-jre \
+        openjdk-8-jdk \
         gnupg2 \
         python \
         openssh-client \
