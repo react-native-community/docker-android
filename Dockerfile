@@ -5,7 +5,7 @@ LABEL Description="This image provides a base Android development environment fo
 # set default build arguments
 ARG SDK_VERSION=sdk-tools-linux-4333796.zip
 ARG ANDROID_BUILD_VERSION=29
-ARG ANDROID_TOOLS_VERSION=29.0.2
+ARG ANDROID_TOOLS_VERSION=29.0.3
 ARG BUCK_VERSION=2019.10.17.01
 ARG NDK_VERSION=20.0.5594570
 ARG NODE_VERSION=12.x
@@ -74,9 +74,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
     && yes | sdkmanager --licenses \
     && yes | sdkmanager "platform-tools" \
         "emulator" \
-        "platforms;android-28" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
-        "build-tools;28.0.3" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "add-ons;addon-google_apis-google-23" \
         "system-images;android-19;google_apis;armeabi-v7a" \
