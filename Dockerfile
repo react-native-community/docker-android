@@ -1,6 +1,8 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
 ARG SDK_VERSION=sdk-tools-linux-4333796.zip
@@ -26,6 +28,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         build-essential \
         file \
         git \
+        cmake \
+        ruby-full \
         openjdk-8-jdk \
         gnupg2 \
         python \
@@ -33,28 +37,9 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
 
-# install latest Ruby using ruby-install
-RUN apt-get update -qq \
-  && apt-get install -qq -y --no-install-recommends \
-          bison \
-          zlib1g-dev \
-          libyaml-dev \
-          libssl-dev \
-          libgdbm-dev \
-          libreadline-dev \
-          libncurses5-dev \
-          libffi-dev \
-  && curl -L https://github.com/postmodern/ruby-install/archive/v0.7.0.tar.gz | tar -zxvf - -C /tmp/ \
-  && cd /tmp/ruby-install-* \
-  && make install \
-  && ruby-install --latest --system --cleanup ruby \
-  && gem install bundler -N \
-  && rm -rf /var/lib/apt/lists/*
-
 # install nodejs and yarn packages from nodesource and yarn apt sources
-RUN echo "deb https://deb.nodesource.com/node_${NODE_VERSION} stretch main" > /etc/apt/sources.list.d/nodesource.list \
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
-    && curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get update -qq \
     && apt-get install -qq -y --no-install-recommends nodejs yarn \
