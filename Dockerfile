@@ -38,7 +38,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get update -qq \
