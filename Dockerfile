@@ -35,6 +35,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         python \
         openssh-client \
         unzip \
+    && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
