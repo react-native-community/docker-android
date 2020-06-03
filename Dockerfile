@@ -5,11 +5,11 @@ LABEL Description="This image provides a base Android development environment fo
 ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
-ARG SDK_VERSION=sdk-tools-linux-4333796.zip
+ARG SDK_VERSION=commandlinetools-linux-6514223_latest.zip
 ARG ANDROID_BUILD_VERSION=29
 ARG ANDROID_TOOLS_VERSION=29.0.3
-ARG BUCK_VERSION=2019.10.17.01
-ARG NDK_VERSION=20.0.5594570
+ARG BUCK_VERSION=2020.05.14.01
+ARG NDK_VERSION=20.1.5948944
 ARG NODE_VERSION=12.x
 ARG WATCHMAN_VERSION=4.9.0
 
