@@ -19,7 +19,7 @@ ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
 
-ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
+ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/emulator:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/platform-tools:/opt/buck/bin/:${PATH}
 
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
@@ -54,8 +54,8 @@ RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSI
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
 RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
-    && mkdir ${ANDROID_HOME} \
-    && unzip -q -d ${ANDROID_HOME} /tmp/sdk.zip \
+    && mkdir -p ${ANDROID_HOME}/cmdline-tools \
+    && unzip -q -d ${ANDROID_HOME}/cmdline-tools /tmp/sdk.zip \
     && rm /tmp/sdk.zip \
     && yes | sdkmanager --licenses \
     && yes | sdkmanager "platform-tools" \
@@ -67,4 +67,4 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "system-images;android-19;google_apis;armeabi-v7a" \
         "extras;android;m2repository" \
         "ndk;$NDK_VERSION" \
-    && rm -rf /opt/android/.android
+    && rm -rf ${ANDROID_HOME}/.android
