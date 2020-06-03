@@ -32,7 +32,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         ruby-full \
         openjdk-8-jdk \
         gnupg2 \
-        python \
+        python3-distutils \
         openssh-client \
         unzip \
     && gem install bundler \
