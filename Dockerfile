@@ -9,6 +9,7 @@ ARG SDK_VERSION=commandlinetools-linux-6514223_latest.zip
 ARG ANDROID_BUILD_VERSION=29
 ARG ANDROID_TOOLS_VERSION=29.0.3
 ARG BUCK_VERSION=2020.05.14.01
+ARG CMAKE_VERSION=3.10.2.4988404
 ARG NDK_VERSION=20.1.5948944
 ARG NODE_VERSION=12.x
 ARG WATCHMAN_VERSION=4.9.0
@@ -19,7 +20,7 @@ ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
 
-ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
+ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/cmake/${CMAKE_VERSION}/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
 
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
@@ -28,11 +29,11 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         build-essential \
         file \
         git \
-        cmake \
         ruby-full \
         openjdk-8-jdk \
         gnupg2 \
         python \
+        python3 \
         python3-distutils \
         openssh-client \
         unzip \
@@ -64,7 +65,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "add-ons;addon-google_apis-google-23" \
-        "cmake;3.10.2.4988404" \
+        "cmake;${CMAKE_VERSION}" \
         "system-images;android-19;google_apis;armeabi-v7a" \
         "extras;android;m2repository" \
         "ndk;$NDK_VERSION" \
