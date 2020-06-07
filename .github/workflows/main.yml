@@ -15,4 +15,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: dulmandakh/react-native
+          tags: latest
           tag_with_ref: true
