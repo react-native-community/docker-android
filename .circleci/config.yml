@@ -46,7 +46,3 @@ workflows:
   main:
     jobs:
       - test
-      - deploy:
-          filters:
-            branches:
-              only: master
