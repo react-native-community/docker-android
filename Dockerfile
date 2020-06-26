@@ -5,13 +5,15 @@ LABEL Description="This image provides a base Android development environment fo
 ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
-ARG SDK_VERSION=commandlinetools-linux-6514223_latest.zip
+ARG SDK_VERSION=commandlinetools-linux-6609375_latest.zip
 ARG ANDROID_BUILD_VERSION=29
 ARG ANDROID_TOOLS_VERSION=29.0.3
 ARG BUCK_VERSION=2020.05.14.01
 ARG NDK_VERSION=20.1.5948944
 ARG NODE_VERSION=12.x
 ARG WATCHMAN_VERSION=4.9.0
+ARG ANDROID_API_ARCH=armeabi-v7a
+ARG ANDROID_API_LEVEL=29
 
 # set default environment variables
 ENV ADB_INSTALL_TIMEOUT=10
@@ -64,9 +66,9 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
-        "add-ons;addon-google_apis-google-23" \
+        "add-ons;addon-google_apis-google-24" \
         "cmake;3.10.2.4988404" \
-        "system-images;android-19;google_apis;armeabi-v7a" \
+        "system-images;android-${ANDROID_API_LEVEL};google_apis;${ANDROID_API_ARCH}" \
         "extras;android;m2repository" \
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android
