@@ -1,0 +1,26 @@
+name: Build Docker image
+
+on: [push, pull_request]
+
+jobs:
+    build:
+      runs-on: ubuntu-20.04
+      env:
+        IMAGE_TAG: react-native
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Build Docker image
+          run: docker build --tag $IMAGE_TAG .
+
+        - name: Checkout React Native
+          uses: actions/checkout@v2
+          with:
+            repository: facebook/react-native
+            path: react-native
+
+        - name: Build React Native
+          run: |
+            docker run --rm -v "${GITHUB_WORKSPACE}/react-native/":/pwd -w /pwd $IMAGE_TAG /bin/sh -c \
+            "yarn install && ./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease && ./scripts/circleci/buck_fetch.sh"
