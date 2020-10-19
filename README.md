@@ -1,5 +1,5 @@
 ## Android Docker Image for react native
-[![CircleCI](https://circleci.com/gh/react-native-community/docker-android.svg?style=svg)](https://circleci.com/gh/react-native-community/docker-android)
+[![Publish](https://github.com/react-native-community/docker-android/workflows/Publish/badge.svg?event=release)](https://hub.docker.com/r/reactnativecommunity/react-native-android) 
 [![Docker Pulls](https://img.shields.io/docker/pulls/reactnativecommunity/react-native-android.svg?maxAge=3600)](https://hub.docker.com/r/reactnativecommunity/react-native-android) 
 [![Docker Layers](https://images.microbadger.com/badges/image/reactnativecommunity/react-native-android.svg)](https://hub.docker.com/r/reactnativecommunity/react-native-android)
 
