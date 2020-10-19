@@ -1,6 +1,12 @@
 name: Build Docker image
 
-on: [push, pull_request]
+on:
+  push:
+    paths: 
+      - Dockerfile
+  pull_request:
+    paths: 
+      - Dockerfile
 
 jobs:
     build:
