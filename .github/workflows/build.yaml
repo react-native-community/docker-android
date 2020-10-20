@@ -15,7 +15,7 @@ jobs:
         IMAGE_TAG: react-native
       steps:
         - name: github.ref
-          run: echo {{ github.ref }}
+          run: echo $github.ref
 
         - name: GITHUB_REF
           run: echo $GITHUB_REF
