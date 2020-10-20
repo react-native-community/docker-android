@@ -1,12 +1,12 @@
 name: Build Docker image
 
-on:
-  push:
-    paths: 
-      - Dockerfile
-  pull_request:
-    paths: 
-      - Dockerfile
+on: [push, pull_request]
+  # push:
+  #   paths: 
+  #     - Dockerfile
+  # pull_request:
+  #   paths: 
+  #     - Dockerfile
 
 jobs:
     build:
@@ -15,7 +15,7 @@ jobs:
         IMAGE_TAG: react-native
       steps:
         - name: github.ref
-          run: echo $github.ref
+          run: echo $github
 
         - name: GITHUB_REF
           run: echo $GITHUB_REF
