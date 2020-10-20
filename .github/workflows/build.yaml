@@ -14,19 +14,24 @@ jobs:
       env:
         IMAGE_TAG: react-native
       steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+        - name: github.ref
+          run: echo {{ github.ref }}
 
-        - name: Build Docker image
-          run: docker build --tag $IMAGE_TAG .
+        - name: GITHUB_REF
+          run: echo $GITHUB_REF
+        # - name: Checkout code
+        #   uses: actions/checkout@v2
 
-        - name: Checkout React Native
-          uses: actions/checkout@v2
-          with:
-            repository: facebook/react-native
-            path: react-native
+        # - name: Build Docker image
+        #   run: docker build --tag $IMAGE_TAG .
 
-        - name: Build React Native
-          run: |
-            docker run --rm -v "${GITHUB_WORKSPACE}/react-native/":/pwd -w /pwd $IMAGE_TAG /bin/sh -c \
-            "yarn install && ./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease && ./scripts/circleci/buck_fetch.sh"
+        # - name: Checkout React Native
+        #   uses: actions/checkout@v2
+        #   with:
+        #     repository: facebook/react-native
+        #     path: react-native
+
+        # - name: Build React Native
+        #   run: |
+        #     docker run --rm -v "${GITHUB_WORKSPACE}/react-native/":/pwd -w /pwd $IMAGE_TAG /bin/sh -c \
+        #     "yarn install && ./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease && ./scripts/circleci/buck_fetch.sh"
