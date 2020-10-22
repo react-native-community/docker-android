@@ -9,7 +9,6 @@ docker login -u ${process.env.DOCKER_USER} -p ${process.env.DOCKER_PASS}
 docker build -t ${repo}:${finaltag} .
 docker tag ${repo}:${finaltag} ${repo}
 docker push ${repo}:${finaltag}
-docker push ${repo}
   `
   cmd.trim().split("\n").map(i => {
     const cmd = i.trim();
