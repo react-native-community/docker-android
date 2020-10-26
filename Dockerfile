@@ -66,7 +66,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "add-ons;addon-google_apis-google-23" \
         "cmake;3.10.2.4988404" \
-        "system-images;android-19;google_apis;armeabi-v7a" \
+        "system-images;android-21;google_apis;armeabi-v7a" \
         "extras;android;m2repository" \
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android
