@@ -37,6 +37,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         python \
         python3-distutils \
         openssh-client \
+        rsync \
         unzip \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
