@@ -12,6 +12,14 @@ aliases:
       docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
 
 jobs:
+  avd:
+    docker:
+      - image: reactnativecommunity/react-native-android:1.0.6
+    steps:
+      - checkout
+      - run: |
+          echo "it works"
+
   test:
     <<: *defaults
     steps:
@@ -38,4 +46,4 @@ workflows:
   version: 2
   main:
     jobs:
-      - test
+      - avd
