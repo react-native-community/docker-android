@@ -27,7 +27,11 @@ jobs:
         id: tags
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          echo ::set-output name=tags::"${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:latest"
+          TAGS="$DOCKER_IMAGE:$VERSION"
+          if [[ $VERSION == 1* ]];
+            TAGS="$TAGS,$DOCKER_IMAGE:latest"
+          fi
+          echo ::set-output name=tags::${TAGS}
 
       - name: Build & publish to Docker Hub
         uses: docker/build-push-action@v2
