@@ -27,7 +27,7 @@ jobs:
         id: tags
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          TAGS="$DOCKER_IMAGE:$VERSION"
+          TAGS="$DOCKER_IMAGE:$VERSION,$DOCKER_IMAGE:$(echo $VERSION | cut -d'.' -f 1)"
           if [[ $VERSION == "1*" ]]; then
             TAGS="$TAGS,$DOCKER_IMAGE:latest"
           fi
