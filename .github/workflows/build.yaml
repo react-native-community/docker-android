@@ -22,6 +22,9 @@ jobs:
         - name: Build Docker image
           run: docker build --tag $IMAGE_TAG .
 
+        - name: Check if Emulator (Headless) starts
+          run: docker run --rm -v "${GITHUB_WORKSPACE}/scripts/":/scripts $IMAGE_TAG /bin/sh -c "/scripts/test-emulator-headless.sh"
+
         - name: Checkout React Native
           uses: actions/checkout@v2
           with:
@@ -29,6 +32,4 @@ jobs:
             path: react-native
 
         - name: Build React Native
-          run: |
-            docker run --rm -v "${GITHUB_WORKSPACE}/react-native/":/pwd -w /pwd $IMAGE_TAG /bin/sh -c \
-            "yarn install && ./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease && ./scripts/circleci/buck_fetch.sh"
+          run: docker run --rm -v "${GITHUB_WORKSPACE}/scripts/":/scripts -v "${GITHUB_WORKSPACE}/react-native/":/react-native -w /react-native $IMAGE_TAG /bin/sh -c "/scripts/test-react-native-setup.sh"

@@ -30,14 +30,17 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         build-essential \
         file \
         git \
-        cmake \
-        ruby-full \
-        openjdk-8-jdk \
         gnupg2 \
-        python \
-        python3-distutils \
+        libc++1-10 \
+        libgl1 \
+        libtcmalloc-minimal4 \
+        openjdk-8-jdk-headless \
         openssh-client \
+        python3 \
+        python3-distutils \
         rsync \
+        ruby \
+        ruby-dev \
         unzip \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
