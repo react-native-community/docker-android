@@ -7,7 +7,7 @@ jobs:
   publish_to_dockerhub:
     name: Publish to Docker Hub
     runs-on: ubuntu-20.04
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ startsWith(github.ref, 'refs/tags/v1') }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
         id: tags
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          echo ::set-output name=tags::"${DOCKER_IMAGE}:${VERSION},${DOCKER_IMAGE}:latest"
+          echo ::set-output name=tags::"$DOCKER_IMAGE:$VERSION,$DOCKER_IMAGE:1,$DOCKER_IMAGE:latest"
 
       - name: Build & publish to Docker Hub
         uses: docker/build-push-action@v2
