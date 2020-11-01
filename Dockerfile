@@ -38,6 +38,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         python3 \
         python3-distutils \
         rsync \
+        ruby-full \
         tzdata \
         unzip \
     && rm -rf /var/lib/apt/lists/*;
