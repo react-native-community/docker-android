@@ -27,6 +27,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
         file \
+        gcc \
         git \
         g++ \
         gnupg2 \
