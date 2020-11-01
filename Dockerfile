@@ -25,14 +25,16 @@ ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
         apt-transport-https \
-        build-essential \
         curl \
         file \
+        gcc \
         git \
+        g++ \
         gnupg2 \
         libc++1-10 \
         libgl1 \
         libtcmalloc-minimal4 \
+        make \
         openjdk-8-jdk-headless \
         openssh-client \
         python3 \
