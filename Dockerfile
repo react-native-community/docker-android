@@ -5,7 +5,7 @@ LABEL Description="This image provides a base Android development environment fo
 ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
-ARG SDK_VERSION=commandlinetools-linux-6609375_latest.zip
+ARG SDK_VERSION=commandlinetools-linux-6858069_latest.zip
 ARG ANDROID_BUILD_VERSION=29
 ARG ANDROID_TOOLS_VERSION=29.0.3
 ARG BUCK_VERSION=2020.10.21.01
@@ -70,7 +70,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
-        "cmake;3.10.2.4988404" \
+        "cmake;3.18.1" \
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android
