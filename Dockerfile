@@ -44,6 +44,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         ruby-dev \
         tzdata \
         unzip \
+        zip \
     && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource and yarn apt sources
