@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM debian:10.7
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
@@ -18,7 +18,7 @@ ENV ADB_INSTALL_TIMEOUT=10
 ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME=/opt/jdk8u275-b01
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
 
@@ -31,11 +31,10 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         git \
         g++ \
         gnupg2 \
-        libc++1-10 \
+        libc++1-7 \
         libgl1 \
         libtcmalloc-minimal4 \
         make \
-        openjdk-8-jdk-headless \
         openssh-client \
         python3 \
         python3-distutils \
@@ -47,6 +46,13 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         zip \
     && rm -rf /var/lib/apt/lists/*;
 
+# install java according to https://adoptopenjdk.net/installation.html?variant=openjdk8&jvmVariant=hotspot#x64_linux-jdk
+# TODO: verify download
+RUN curl -sL https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u275-b01/OpenJDK8U-jdk_x64_linux_hotspot_8u275b01.tar.gz  -o /tmp/java.tar.gz \
+    && tar xzf /tmp/java.tar.gz -C /opt/ \
+    && rm /tmp/java.tar.gz \
+    && export PATH=/opt/jdk8u275-b01/bin:$PATH
+
 # install nodejs and yarn packages from nodesource and yarn apt sources
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
@@ -57,7 +63,7 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
 
 # download and install buck using debian package
 RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
-    && dpkg -i /tmp/buck.deb \
+    && dpkg --force-all -i /tmp/buck.deb \
     && rm /tmp/buck.deb
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
