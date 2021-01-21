@@ -1,0 +1,60 @@
+# to be published as 
+FROM adoptopenjdk/openjdk8:debian
+
+LABEL Description="This image provides a base Android development environment for React Native."
+LABEL JAVA="OpenJDK8"
+LABEL ANDROID_SDK="29"
+LABEL ANDROID_TOOLS="29.0.3"
+LABEL NODE="14"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# set default build arguments
+ARG SDK_VERSION=commandlinetools-linux-6609375_latest.zip
+ARG ANDROID_BUILD_VERSION=29
+ARG ANDROID_TOOLS_VERSION=29.0.3
+ARG NDK_VERSION=20.1.5948944
+ARG NODE_VERSION=14.x
+ARG WATCHMAN_VERSION=4.9.0
+
+# set default environment variables
+ENV ADB_INSTALL_TIMEOUT=10
+ENV ANDROID_HOME=/opt/android
+ENV ANDROID_SDK_HOME=${ANDROID_HOME}
+ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
+
+ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
+
+# Install system dependencies
+RUN apt update -qq && apt install -qq -y --no-install-recommends \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        g++ \
+        gcc \
+        git \
+        make \
+        unzip \
+    && rm -rf /var/lib/apt/lists/*;
+
+# install nodejs and yarn packages from nodesource and yarn apt sources
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && apt update -qq \
+    && apt install -qq -y --no-install-recommends python2.7 nodejs yarn \
+    && rm -rf /var/lib/apt/lists/*
+
+# Full reference at https://dl.google.com/android/repository/repository2-1.xml
+# download and unpack android
+RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
+    && mkdir -p ${ANDROID_HOME}/cmdline-tools \
+    && unzip -q -d ${ANDROID_HOME}/cmdline-tools /tmp/sdk.zip \
+    && rm /tmp/sdk.zip \
+    && yes | sdkmanager --licenses \
+    && yes | sdkmanager "platform-tools" \
+        "platforms;android-$ANDROID_BUILD_VERSION" \
+        "build-tools;$ANDROID_TOOLS_VERSION" \
+        "cmake;3.10.2.4988404" \
+        "ndk;$NDK_VERSION" \
+    && rm -rf ${ANDROID_HOME}/.android

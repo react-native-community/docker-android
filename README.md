@@ -7,10 +7,41 @@
 ## Motivation
 This is an implementation of https://github.com/react-native-community/discussions-and-proposals/blob/master/proposals/0005-Official-Docker.md.
 
+## Support
+
+### reactnativecommunity/react-native-android
+
+Full image to build and test React Native apps. Comes with:
+
+* Node
+* Npm & Yarn
+* Android SDK
+* Buck
+* Python,
+* Ruby
+* Commonly used apt packages (unzip, zip, ...)
+
+| React Native Versions  | Full image                                    
+| ---------------------- | -----------
+| x - 0.63               | reactnativecommunity/react-native-android:3.0
+
+[Find on docker hub.](https://hub.docker.com/r/reactnativecommunity/react-native-android/)
+
+# reactnativecommunity/react-native-android-core
+
+Core image that contains the minimum to build React Native apps. Comes with:
+
+* Node
+* Npm & Yarn
+* Android SDK
+
+| React Native Versions  | Core image
+| ---------------------- | -----------
+| x - 0.63               | reactnativecommunity/react-native-android-core:android-29-jdk-8 
+
+[Find on docker hub.](https://hub.docker.com/r/reactnativecommunity/react-native-android-core/)
+
 ## Showcase
 https://github.com/react-native-community/ci-sample
-
-## Dockerhub Image
-see https://hub.docker.com/r/reactnativecommunity/react-native-android/
 
 Original version is split from react-native repo, see https://github.com/facebook/react-native/blob/988366a4179d87d667e5d9396efdfba4cbbe0b2e/ContainerShip/Dockerfile.android-base.
