@@ -32,4 +32,4 @@ jobs:
             path: react-native
 
         - name: Build React Native
-          run: docker run --rm -v "${GITHUB_WORKSPACE}/scripts/":/scripts -v "${GITHUB_WORKSPACE}/react-native/":/react-native -w /react-native $IMAGE_TAG /bin/sh -c "/scripts/test-react-native-setup.sh"
+          run: docker run --rm -v "${GITHUB_WORKSPACE}/scripts/":/scripts -v "${GITHUB_WORKSPACE}/react-native/":/react-native -w /react-native $IMAGE_TAG /bin/sh -c " /scripts/android-setup.sh && /scripts/test-react-native-setup.sh"
