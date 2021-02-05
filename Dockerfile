@@ -47,6 +47,9 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         zip \
     && rm -rf /var/lib/apt/lists/*;
 
+# Refresh keys to prevent invalid signature 
+RUN apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
+
 # install nodejs and yarn packages from nodesource and yarn apt sources
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
