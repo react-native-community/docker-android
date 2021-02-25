@@ -45,6 +45,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         tzdata \
         unzip \
         zip \
+    && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
 # Refresh keys to prevent invalid signature 
