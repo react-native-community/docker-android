@@ -17,11 +17,7 @@ jobs:
     steps:
       - checkout
       - run: *build-docker
-      - run:
-          name: Test Avd
-          command: |
-            docker run --rm --name rn-build -v $PWD:/pwd -w /pwd react-native-community/react-native bash -c \
-              "chmod +x ./test-avd.sh && ./test-avd.sh"
+
   deploy:
     <<: *defaults
     steps:
