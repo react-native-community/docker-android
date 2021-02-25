@@ -45,7 +45,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         tzdata \
         unzip \
         sudo \
-        ninja- build
+        ninja-build \
         zip \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
