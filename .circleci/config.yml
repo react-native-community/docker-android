@@ -12,11 +12,6 @@ aliases:
       docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
 
 jobs:
-  test:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: *build-docker
 
   deploy:
     <<: *defaults
@@ -34,4 +29,7 @@ workflows:
   version: 2
   main:
     jobs:
-      - test
+      - deploy:
+          filters:
+            branches:
+              only: master
