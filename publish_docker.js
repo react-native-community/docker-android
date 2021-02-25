@@ -5,6 +5,7 @@ function publishDocker() {
   const repo = `reactnativecommunity/react-native-android`
   const cmd =`
 docker login -u ${process.env.DOCKER_USER} -p ${process.env.DOCKER_PASS}
+docker build -t ${repo} .
 docker push ${repo}
   `
   cmd.trim().split("\n").map(i => {
