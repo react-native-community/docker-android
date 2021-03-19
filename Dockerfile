@@ -50,15 +50,11 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
-# Refresh keys to prevent invalid signature 
-RUN apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
-
-# install nodejs and yarn packages from nodesource and yarn apt sources
+# install nodejs and yarn packages from nodesource
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
-    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get update -qq \
-    && apt-get install -qq -y --no-install-recommends nodejs yarn \
+    && apt-get install -qq -y --no-install-recommends nodejs \
+    && npm i -g yarn \
     && rm -rf /var/lib/apt/lists/*
 
 # download and install buck using debian package
