@@ -67,14 +67,9 @@ RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSI
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
 RUN echo "#!/bin/sh \n\
-echo "fs.inotify.max_user_watches before update" \n\
-cat /etc/sysctl.conf\n\
 echo "______________________________________________updating inotify ____________________________________" \n\
-echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p \n\
-echo "updated value is" \n\
-cat /etc/sysctl.conf | grep fs.inotify \n\
-exec yarn start:dev \
-" >> /usr/local/bin/entrypoint.sh
+echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p\
+" >> /usr/local/bin/update-watch-fs.sh
 
 
 RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
@@ -90,7 +85,6 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
+COPY build /usr/local/bin/build
+RUN chmod +x /usr/local/bin/update-watch-fs.sh
+ENTRYPOINT ["/usr/local/bin/build"]
