@@ -6,8 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
 ARG SDK_VERSION=commandlinetools-linux-6609375_latest.zip
-ARG ANDROID_BUILD_VERSION=30
-ARG ANDROID_TOOLS_VERSION=30.0.3
+ARG ANDROID_BUILD_VERSION=28
+ARG ANDROID_TOOLS_VERSION=28.0.3
 ARG BUCK_VERSION=2020.10.21.01
 ARG NDK_VERSION=20.1.5948944
 ARG NODE_VERSION=14.x
@@ -70,10 +70,14 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
     && rm /tmp/sdk.zip \
     && yes | sdkmanager --licenses \
     && yes | sdkmanager "platform-tools" \
-        "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "cmake;3.10.2.4988404" \
-        "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android
+
+WORKDIR /gradle
+RUN curl -L https://services.gradle.org/distributions/gradle-6.5.1-bin.zip -o gradle-6.5.1-bin.zip
+RUN unzip gradle-6.5.1-bin.zip
+ENV GRADLE_HOME=/gradle/gradle-6.5.1
+ENV PATH=$PATH:$GRADLE_HOME/bin
