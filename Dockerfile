@@ -79,5 +79,5 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
 WORKDIR /gradle
 RUN curl -L https://services.gradle.org/distributions/gradle-6.5.1-bin.zip -o gradle-6.5.1-bin.zip
 RUN unzip gradle-6.5.1-bin.zip
-ENV GRADLE_HOME=/gradle/gradle-6.5.1
-ENV PATH=$PATH:$GRADLE_HOME/bin
+ENV GRADLE_USER_HOME=/gradle/gradle-6.5.1
+ENV PATH=$PATH:$GRADLE_USER_HOME/bin
