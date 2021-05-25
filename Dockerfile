@@ -5,9 +5,9 @@ LABEL Description="This image provides a base Android development environment fo
 ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
-ARG SDK_VERSION=commandlinetools-linux-6858069_latest.zip
-ARG ANDROID_BUILD_VERSION=29
-ARG ANDROID_TOOLS_VERSION=29.0.3
+ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
+ARG ANDROID_BUILD_VERSION=30
+ARG ANDROID_TOOLS_VERSION=30.0.3
 ARG BUCK_VERSION=2020.10.21.01
 ARG NDK_VERSION=20.1.5948944
 ARG NODE_VERSION=14.x
@@ -44,14 +44,17 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         ruby-dev \
         tzdata \
         unzip \
+        sudo \
+        ninja-build \
+        zip \
+    && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
-# install nodejs and yarn packages from nodesource and yarn apt sources
+# install nodejs and yarn packages from nodesource
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
-    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get update -qq \
-    && apt-get install -qq -y --no-install-recommends nodejs yarn \
+    && apt-get install -qq -y --no-install-recommends nodejs \
+    && npm i -g yarn \
     && rm -rf /var/lib/apt/lists/*
 
 # download and install buck using debian package
