@@ -5,7 +5,7 @@ LABEL Description="This image provides a base Android development environment fo
 ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
-ARG SDK_VERSION=commandlinetools-linux-6609375_latest.zip
+ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
 ARG ANDROID_BUILD_VERSION=30
 ARG ANDROID_TOOLS_VERSION=30.0.3
 ARG BUCK_VERSION=2020.10.21.01
@@ -20,7 +20,7 @@ ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
-ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
+ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
 
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
@@ -67,13 +67,14 @@ RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSI
 RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
     && mkdir -p ${ANDROID_HOME}/cmdline-tools \
     && unzip -q -d ${ANDROID_HOME}/cmdline-tools /tmp/sdk.zip \
+    && mv ${ANDROID_HOME}/cmdline-tools/cmdline-tools ${ANDROID_HOME}/cmdline-tools/latest \
     && rm /tmp/sdk.zip \
     && yes | sdkmanager --licenses \
     && yes | sdkmanager "platform-tools" \
         "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
-        "cmake;3.10.2.4988404" \
+        "cmake;3.18.1" \
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android
