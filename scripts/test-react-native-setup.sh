@@ -2,8 +2,6 @@
 
 set -e
 
-ulimit
-
 echo "Check Buck setup"
 ./scripts/circleci/buck_fetch.sh
 buck build ReactAndroid/src/main/java/com/facebook/react
