@@ -65,6 +65,7 @@ RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSI
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
+# workaround buck clang version detection by symlinking
 RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
     && mkdir -p ${ANDROID_HOME}/cmdline-tools \
     && unzip -q -d ${ANDROID_HOME}/cmdline-tools /tmp/sdk.zip \
@@ -78,4 +79,5 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "cmake;3.18.1" \
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION" \
-    && rm -rf ${ANDROID_HOME}/.android
+    && rm -rf ${ANDROID_HOME}/.android \
+    && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.9 ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
