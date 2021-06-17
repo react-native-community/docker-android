@@ -7,16 +7,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 # set default build arguments
 ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
 ARG ANDROID_BUILD_VERSION=30
-ARG ANDROID_TOOLS_VERSION=30.0.3
+ARG ANDROID_TOOLS_VERSION=30.0.2
 ARG BUCK_VERSION=2020.10.21.01
-ARG NDK_VERSION=20.1.5948944
+ARG NDK_VERSION=21.4.7075529
 ARG NODE_VERSION=14.x
 ARG WATCHMAN_VERSION=4.9.0
 
 # set default environment variables
 ENV ADB_INSTALL_TIMEOUT=10
 ENV ANDROID_HOME=/opt/android
-ENV ANDROID_SDK_HOME=${ANDROID_HOME}
+ENV ANDROID_SDK_ROOT=${ANDROID_HOME}
 ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
@@ -37,6 +37,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         make \
         openjdk-8-jdk-headless \
         openssh-client \
+        patch \
         python3 \
         python3-distutils \
         rsync \
@@ -64,6 +65,7 @@ RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSI
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
+# workaround buck clang version detection by symlinking
 RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk.zip \
     && mkdir -p ${ANDROID_HOME}/cmdline-tools \
     && unzip -q -d ${ANDROID_HOME}/cmdline-tools /tmp/sdk.zip \
@@ -77,4 +79,5 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "cmake;3.18.1" \
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION" \
-    && rm -rf ${ANDROID_HOME}/.android
+    && rm -rf ${ANDROID_HOME}/.android \
+    && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.9 ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
