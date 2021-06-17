@@ -7,9 +7,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 # set default build arguments
 ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
 ARG ANDROID_BUILD_VERSION=30
-ARG ANDROID_TOOLS_VERSION=30.0.3
+ARG ANDROID_TOOLS_VERSION=30.0.2
 ARG BUCK_VERSION=2020.10.21.01
-ARG NDK_VERSION=20.1.5948944
+ARG NDK_VERSION=21.4.7075529
 ARG NODE_VERSION=14.x
 ARG WATCHMAN_VERSION=4.9.0
 
@@ -37,6 +37,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         make \
         openjdk-8-jdk-headless \
         openssh-client \
+        patch \
         python3 \
         python3-distutils \
         rsync \
