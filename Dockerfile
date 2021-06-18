@@ -7,15 +7,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 # set default build arguments
 ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
 ARG ANDROID_BUILD_VERSION=30
-ARG ANDROID_TOOLS_VERSION=30.0.2
+ARG ANDROID_TOOLS_VERSION=30.0.3
 ARG BUCK_VERSION=2020.10.21.01
 ARG NDK_VERSION=21.4.7075529
 ARG NODE_VERSION=14.x
 ARG WATCHMAN_VERSION=4.9.0
 
-# set default environment variables
+# set default environment variables, please don't remove old env for compatibilty issue
 ENV ADB_INSTALL_TIMEOUT=10
 ENV ANDROID_HOME=/opt/android
+ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_SDK_ROOT=${ANDROID_HOME}
 ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
