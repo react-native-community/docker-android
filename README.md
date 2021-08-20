@@ -2,7 +2,7 @@
 ![Build Docker image](https://github.com/react-native-community/docker-android/workflows/Build%20Docker%20image/badge.svg)
 ![Publish](https://github.com/react-native-community/docker-android/workflows/Publish/badge.svg)
 [![Docker Pulls](https://img.shields.io/docker/pulls/reactnativecommunity/react-native-android.svg?maxAge=3600)](https://hub.docker.com/r/reactnativecommunity/react-native-android) 
-[![Docker Layers](https://images.microbadger.com/badges/image/reactnativecommunity/react-native-android.svg)](https://hub.docker.com/r/reactnativecommunity/react-native-android)
+
 
 ## Motivation
 This is an implementation of https://github.com/react-native-community/discussions-and-proposals/blob/master/proposals/0005-Official-Docker.md.
