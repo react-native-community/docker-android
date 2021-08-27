@@ -9,7 +9,7 @@ ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
 ARG ANDROID_BUILD_VERSION=30
 ARG ANDROID_TOOLS_VERSION=30.0.3
 ARG BUCK_VERSION=2020.10.21.01
-ARG NDK_VERSION=21.4.7075529
+ARG NDK_VERSION=23.0.7599858
 ARG NODE_VERSION=14.x
 ARG WATCHMAN_VERSION=4.9.0
 
@@ -82,3 +82,4 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android \
     && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.9 ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
+
