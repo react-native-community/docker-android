@@ -37,6 +37,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         libtcmalloc-minimal4 \
         make \
         openjdk-8-jdk-headless \
+        openjdk-11-jdk-headless \
         openssh-client \
         patch \
         python3 \
