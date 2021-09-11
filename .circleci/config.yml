@@ -1,0 +1,35 @@
+version: 2
+
+defaults: &defaults
+  machine: true
+  working_directory: ~/project
+
+aliases:
+  - &build-docker
+    name: Build Docker Image
+    command: |
+      docker build -t react-native-community/react-native .
+      docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
+
+jobs:
+
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *build-docker
+      - run:
+          name: Deploy docker
+          command: |
+            source ~/.bashrc
+            nvm i node
+            node publish_docker.js
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: master
