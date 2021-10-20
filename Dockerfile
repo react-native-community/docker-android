@@ -50,6 +50,26 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         sudo \
         ninja-build \
         zip \
+        # Emulator & video bridge dependencies
+        libc6 \
+        libdbus-1-3 \
+        libfontconfig1 \
+        libgcc1 \
+        libpulse0 \
+        libtinfo5 \
+        libx11-6 \
+        libxcb1 \
+        libxdamage1 \
+        libnss3 \
+        libxcomposite1 \
+        libxcursor1 \
+        libxi6 \
+        libxext6 \
+        libxfixes3 \
+        zlib1g \
+        libgl1 \
+        pulseaudio \
+        socat \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
