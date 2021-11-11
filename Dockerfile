@@ -20,11 +20,13 @@ ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_SDK_ROOT=${ANDROID_HOME}
 ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV ANT_OPTS="-Xmx4096m"
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
 
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
+        ant \
         apt-transport-https \
         curl \
         file \
@@ -37,9 +39,9 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         libtcmalloc-minimal4 \
         make \
         openjdk-8-jdk-headless \
-        openjdk-11-jdk-headless \
         openssh-client \
         patch \
+        python2 \
         python3 \
         python3-distutils \
         rsync \
@@ -73,17 +75,18 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
+# install buck by compiling it from source
+RUN git clone --depth 1 --branch v${BUCK_VERSION} https://github.com/facebook/buck.git
+RUN cd buck && ant
+RUN cd buck && ./bin/buck build --show-output buck
+ENV PATH="./buck/bin/:${PATH}"
+
 # install nodejs and yarn packages from nodesource
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
     && apt-get update -qq \
     && apt-get install -qq -y --no-install-recommends nodejs \
     && npm i -g yarn \
     && rm -rf /var/lib/apt/lists/*
-
-# download and install buck using debian package
-RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
-    && dpkg -i /tmp/buck.deb \
-    && rm /tmp/buck.deb
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
