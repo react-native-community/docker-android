@@ -1,5 +1,21 @@
-FROM ubuntu:20.04
+# build buck from source
+FROM ubuntu:20.04 AS buck
 
+ARG BUCK_VERSION=2021.01.12.01
+ENV ANT_OPTS="-Xmx4096m"
+RUN apt update  && apt install  -y --no-install-recommends \
+    ant \
+    git \
+    openjdk-11-jdk-headless \
+    python2
+# install buck by compiling it from source. We also remove the buck repo once it's built.
+RUN git clone --depth 1 --branch v${BUCK_VERSION} https://github.com/facebook/buck.git \
+    && cd buck \
+    && ant \
+    && ./bin/buck build buck --out /tmp/buck.pex
+
+# build react native image and use buck built from source from above stage
+FROM ubuntu:20.04
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -8,7 +24,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
 ARG ANDROID_BUILD_VERSION=30
 ARG ANDROID_TOOLS_VERSION=30.0.3
-ARG BUCK_VERSION=2021.01.12.01
 ARG NDK_VERSION=21.4.7075529
 ARG NODE_VERSION=14.x
 ARG WATCHMAN_VERSION=4.9.0
@@ -19,9 +34,11 @@ ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_HOME=${ANDROID_HOME}
 ENV ANDROID_SDK_ROOT=${ANDROID_HOME}
 ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 ENV PATH=${ANDROID_NDK}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
+
+COPY --from=buck /tmp/buck.pex /usr/local/bin/buck
 
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
@@ -36,7 +53,6 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         libgl1 \
         libtcmalloc-minimal4 \
         make \
-        openjdk-8-jdk-headless \
         openjdk-11-jdk-headless \
         openssh-client \
         patch \
@@ -79,11 +95,6 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
     && apt-get install -qq -y --no-install-recommends nodejs \
     && npm i -g yarn \
     && rm -rf /var/lib/apt/lists/*
-
-# download and install buck using debian package
-RUN curl -sS -L https://github.com/facebook/buck/releases/download/v${BUCK_VERSION}/buck.${BUCK_VERSION}_all.deb -o /tmp/buck.deb \
-    && dpkg -i /tmp/buck.deb \
-    && rm /tmp/buck.deb
 
 # Full reference at https://dl.google.com/android/repository/repository2-1.xml
 # download and unpack android
