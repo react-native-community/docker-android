@@ -7,7 +7,7 @@ RUN apt update  && apt install  -y --no-install-recommends \
     ant \
     git \
     openjdk-11-jdk-headless \
-    python2
+    python3
 # install buck by compiling it from source. We also remove the buck repo once it's built.
 RUN git clone --depth 1 --branch v${BUCK_VERSION} https://github.com/facebook/buck.git \
     && cd buck \
