@@ -75,11 +75,15 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
-# install buck by compiling it from source
-RUN git clone --depth 1 --branch v${BUCK_VERSION} https://github.com/facebook/buck.git
-RUN cd buck && ant
-RUN cd buck && ./bin/buck build --config java.target_level=11 --config java.source_level=11 --show-output buck
-ENV PATH="/buck/bin/:${PATH}"
+# install buck by compiling it from source. We also remove the buck repo once it's built.
+RUN git clone --depth 1 --branch v${BUCK_VERSION} https://github.com/facebook/buck.git \
+    && cd buck \
+    && ant \
+    && mkdir /buck-compiled \
+    && cp -r bin config programs python-dsl ant-out third-party /buck-compiled \
+    && cd .. \
+    && rm -rf buck
+ENV PATH="/buck-compiled/bin/:${PATH}"
 
 # install nodejs and yarn packages from nodesource
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
