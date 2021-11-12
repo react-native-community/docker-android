@@ -13,7 +13,7 @@ RUN apt update  && apt install  -y --no-install-recommends \
 RUN git clone --depth 1 --branch v${BUCK_VERSION} https://github.com/facebook/buck.git \
     && cd buck \
     && ant \
-    && ./bin/buck build buck --out /tmp/buck.pex
+    && ./bin/buck build buck --config java.target_level=11 --config java.source_level=11 --out /tmp/buck.pex
 
 # build react native image and use buck built from source from above stage
 FROM ubuntu:20.04
