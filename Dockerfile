@@ -21,10 +21,14 @@ LABEL Description="This image provides a base Android development environment fo
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# old versions to make sure build pass before RN versions are bumped
+ARG ANDROID_BUILD_VERSION_deprecated=30
+ARG ANDROID_TOOLS_VERSION_deprecated=30.0.3
+
 # set default build arguments
 ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
-ARG ANDROID_BUILD_VERSION=30
-ARG ANDROID_TOOLS_VERSION=30.0.3
+ARG ANDROID_BUILD_VERSION=31
+ARG ANDROID_TOOLS_VERSION=31.0.0
 ARG NDK_VERSION=21.4.7075529
 ARG NODE_VERSION=14.x
 ARG WATCHMAN_VERSION=4.9.0
@@ -108,7 +112,9 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
     && yes | sdkmanager "platform-tools" \
         "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
+        "platforms;android-$ANDROID_BUILD_VERSION_deprecated" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
+        "build-tools;$ANDROID_TOOLS_VERSION_deprecated" \
         "cmake;3.18.1" \
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION" \
