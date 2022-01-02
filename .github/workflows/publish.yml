@@ -6,7 +6,7 @@ on:
 jobs:
   publish_to_dockerhub:
     name: Publish to Docker Hub
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     steps:
       - name: Check out the repo
