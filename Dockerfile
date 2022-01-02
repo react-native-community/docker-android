@@ -86,7 +86,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         libgl1 \
         pulseaudio \
         socat \
-    && gem install bundler \
+    && gem install bundler fastlane \
     && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource
