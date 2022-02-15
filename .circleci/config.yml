@@ -1,7 +1,7 @@
 version: 2
 
 defaults: &defaults
-  machine: true
+  machine: ubuntu-2004:202201-02
   working_directory: ~/project
 
 aliases:
@@ -12,7 +12,6 @@ aliases:
       docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
 
 jobs:
-
   deploy:
     <<: *defaults
     steps:
