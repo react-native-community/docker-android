@@ -2,7 +2,7 @@
 
 set -e
 
-export KOTLIN_HOME="ReactAndroid/src/main/third-party/kotlin"
+export KOTLIN_HOME="third-party/kotlin"
 
 echo "Download Buck dependencies"
 ./scripts/circleci/buck_fetch.sh
