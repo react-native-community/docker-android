@@ -68,6 +68,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         sudo \
         ninja-build \
         zip \
+        # Dev libraries requested by Hermes
+        libicu-dev \
         # Emulator & video bridge dependencies
         libc6 \
         libdbus-1-3 \
