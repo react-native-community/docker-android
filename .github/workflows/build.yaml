@@ -17,9 +17,6 @@ jobs:
       env:
         IMAGE_TAG: react-native
       steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-
         - name: Maximize build space
           uses: easimon/maximize-build-space@master
           with:
@@ -29,6 +26,9 @@ jobs:
             remove-android: 'true'
 
         - run: df -h
+
+        - name: Checkout code
+          uses: actions/checkout@v2
 
         - name: Build Docker image
           run: docker build --tag $IMAGE_TAG .
