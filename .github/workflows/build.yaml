@@ -20,6 +20,8 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v2
 
+        - run: df -h
+
         - name: Build Docker image
           run: docker build --tag $IMAGE_TAG .
 
