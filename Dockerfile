@@ -119,3 +119,6 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
     && rm -rf ${ANDROID_HOME}/.android \
     && chmod 777 -R /opt/android \
     && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.9 ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
+
+# Add rust
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
