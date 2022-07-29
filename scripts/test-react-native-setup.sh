@@ -19,5 +19,5 @@ yarn
 # ./gradlew --no-daemon :ReactAndroid:packageReactNdkLibsForBuck
 
 # echo "Assemble RNTester app"
-./gradlew --no-daemon downloadAll
+./gradlew --no-daemon downloadAll buildAll
 ./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease
