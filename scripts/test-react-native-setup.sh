@@ -14,12 +14,10 @@ buck build ReactAndroid/src/main/java/com/facebook/react
 buck build ReactAndroid/src/main/java/com/facebook/react/shell
 
 echo "Build React Native via Gradle"
-yarn install
-
-./gradlew :ReactAndroid:assembleDebug
+yarn 
 
 # ./gradlew --no-daemon :ReactAndroid:packageReactNdkLibsForBuck
 
 # echo "Assemble RNTester app"
-# ./gradlew --no-daemon downloadAll
-# ./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease
+./gradlew --no-daemon downloadAll
+./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease
