@@ -1,5 +1,5 @@
 # build buck from source
-FROM ubuntu:20.04 AS buck
+FROM ubuntu:22.04 AS buck
 
 ARG BUCK_VERSION=2021.01.12.01
 ENV ANT_OPTS="-Xmx4096m"
@@ -16,7 +16,7 @@ RUN git clone --depth 1 --branch v${BUCK_VERSION} https://github.com/facebook/bu
     && ./bin/buck build buck --config java.target_level=11 --config java.source_level=11 --out /tmp/buck.pex
 
 # build react native image and use buck built from source from above stage
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
 ENV DEBIAN_FRONTEND=noninteractive
