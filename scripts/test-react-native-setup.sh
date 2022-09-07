@@ -13,7 +13,7 @@ buck build ReactAndroid/src/main/java/com/facebook/react/shell
 
 echo "Build React Native via Gradle"
 yarn install
-./gradlew --no-daemon :ReactAndroid:packageReactNdkLibsForBuck
+./gradlew --no-daemon :ReactAndroid:packageReactNdkLibsForBuck -PreactNativeArchitectures=arm64-v8a
 
-echo "Assemble RNTester app"
-./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease
+echo "Assemble RNTester Release arm64-v8a"
+./gradlew --no-daemon :packages:rn-tester:android:app:assembleRelease -PreactNativeArchitectures=arm64-v8a
