@@ -25,6 +25,21 @@ jobs:
             nvm i node
             node publish_docker.js
 
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *build-docker
+      - run:
+          name: Check if Emulator (Headless) starts
+          command: docker run --rm -v "$(pwd)/scripts/":/scripts react-native-community/react-native /bin/sh -c "/scripts/test-emulator-headless.sh"
+      - run:
+          name: Checkout React Native
+          command: git clone https://github.com/facebook/react-native.git
+      - run:
+          name: Build React Native
+          command: docker run --rm --ulimit nofile=10240 -v "$(pwd)/scripts/":/scripts -v "$(pwd)/react-native/":/react-native -w /react-native react-native-community/react-native /bin/sh -c "/scripts/test-react-native-setup.sh"
+
 workflows:
   version: 2
   main:
@@ -33,3 +48,4 @@ workflows:
           filters:
             branches:
               only: master
+      - build
