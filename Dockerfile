@@ -10,7 +10,11 @@ ARG SDK_VERSION=commandlinetools-linux-8512546_latest.zip
 ARG ANDROID_BUILD_VERSION=31
 ARG ANDROID_TOOLS_VERSION=31.0.0
 ARG BUCK_VERSION=2022.05.05.01
-ARG NDK_VERSION=23.1.7779620
+# Buck doesn't support versions beyond NDK 21
+# Therefore we need to diverge the NDK version and set NDK_HOME
+# for Buck to pick it up correctly.
+ARG NDK_VERSION_BUCK=21.4.7075529
+ARG NDK_VERSION_GRADLE=23.1.7779620
 ARG NODE_VERSION=14.x
 ARG WATCHMAN_VERSION=4.9.0
 ARG CMAKE_VERSION=3.18.1
@@ -19,11 +23,14 @@ ARG CMAKE_VERSION=3.18.1
 ENV ADB_INSTALL_TIMEOUT=10
 ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_ROOT=${ANDROID_HOME}
-ENV ANDROID_NDK=${ANDROID_HOME}/ndk/$NDK_VERSION
+ENV ANDROID_NDK_BUCK=${ANDROID_HOME}/ndk/$NDK_VERSION_BUCK
+ENV ANDROID_NDK_GRADLE=${ANDROID_HOME}/ndk/$NDK_VERSION_GRADLE
+# this is needed for Buck to be able to recognize NDK 21
+ENV NDK_HOME=${ANDROID_HOME}/ndk/$NDK_VERSION_BUCK
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV CMAKE_BIN_PATH=${ANDROID_HOME}/cmake/$CMAKE_VERSION/bin
 
-ENV PATH=${ANDROID_NDK}:${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
+ENV PATH=${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/buck/bin/:${PATH}
 
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
@@ -103,9 +110,8 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "cmake;$CMAKE_VERSION" \
         "system-images;android-21;google_apis;armeabi-v7a" \
-        "ndk;$NDK_VERSION" \
+        "ndk;$NDK_VERSION_BUCK" \
+        "ndk;$NDK_VERSION_GRADLE" \
     && rm -rf ${ANDROID_HOME}/.android \
     && chmod 777 -R /opt/android \
-    && ln -s ${ANDROID_NDK}/toolchains/llvm ${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.9 \
-    && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot ${ANDROID_NDK}/sysroot \
-    && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/12.0.8 ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
+    && ln -s ${ANDROID_NDK_BUCK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.9 ${ANDROID_NDK_BUCK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
