@@ -105,4 +105,5 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android \
-    && chmod 777 -R /opt/android
+    && chmod 777 -R /opt/android \
+    && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/12.0.8 ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
