@@ -4,10 +4,6 @@ LABEL Description="This image provides a base Android development environment fo
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Keep the previous SDK as a fallback until we've finished the migration.
-ARG ANDROID_BUILD_VERSION_FALLBACK=31
-ARG ANDROID_TOOLS_VERSION_FALLBACK=31.0.0
-
 # set default build arguments
 # https://developer.android.com/studio#command-tools
 ARG SDK_VERSION=commandlinetools-linux-8512546_latest.zip
@@ -111,9 +107,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
     && yes | sdkmanager "platform-tools" \
         "emulator" \
         "platforms;android-$ANDROID_BUILD_VERSION" \
-        "platforms;android-$ANDROID_BUILD_VERSION_FALLBACK" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
-        "build-tools;$ANDROID_TOOLS_VERSION_FALLBACK" \
         "cmake;$CMAKE_VERSION" \
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION_BUCK" \
