@@ -19,7 +19,7 @@ ARG BUCK_VERSION=2022.05.05.01
 # for Buck to pick it up correctly.
 ARG NDK_VERSION_BUCK=21.4.7075529
 ARG NDK_VERSION_GRADLE=23.1.7779620
-ARG NODE_VERSION=14.x
+ARG NODE_VERSION=14
 ARG WATCHMAN_VERSION=4.9.0
 ARG CMAKE_VERSION=3.18.1
 
@@ -87,12 +87,12 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
-# install nodejs and yarn packages from nodesource
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
-    && apt-get update -qq \
-    && apt-get install -qq -y --no-install-recommends nodejs \
-    && npm i -g yarn \
-    && rm -rf /var/lib/apt/lists/*
+# install nodejs using n
+RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n \
+    && bash n lts \
+    && npm install -g n \
+    && n $NODE_VERSION \
+    && npm install -g yarn
 
  # download and install buck using the java11 pex from Jitpack
  RUN curl -L https://jitpack.io/com/github/facebook/buck/v${BUCK_VERSION}/buck-v${BUCK_VERSION}-java11.pex -o /tmp/buck.pex \
