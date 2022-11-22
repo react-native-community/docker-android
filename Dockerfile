@@ -89,9 +89,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
 
 # install nodejs using n
 RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n \
-    && bash n lts \
-    && npm install -g n \
-    && n $NODE_VERSION \
+    && bash n $NODE_VERSION \
     && npm install -g yarn
 
  # download and install buck using the java11 pex from Jitpack
