@@ -21,7 +21,10 @@ ARG NDK_VERSION_BUCK=21.4.7075529
 ARG NDK_VERSION_GRADLE=23.1.7779620
 ARG NODE_VERSION=16
 ARG WATCHMAN_VERSION=4.9.0
-ARG CMAKE_VERSION=3.18.1
+# For comaptibilites we install both CMake 3.18.x and 3.22.x, as AGP 7.3 autodownloads 3.18.x
+# Once we bump to AGP 7.4, we can remove 3.18.x and use only 3.22.x
+ARG CMAKE_VERSION=3.22.1
+ARG OLD_CMAKE_VERSION=3.18.1
 
 # set default environment variables, please don't remove old env for compatibilty issue
 ENV ADB_INSTALL_TIMEOUT=10
@@ -115,6 +118,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION_FALLBACK" \
         "cmake;$CMAKE_VERSION" \
+        "cmake;$OLD_CMAKE_VERSION" \
         "system-images;android-21;google_apis;armeabi-v7a" \
         "ndk;$NDK_VERSION_BUCK" \
         "ndk;$NDK_VERSION_GRADLE" \
