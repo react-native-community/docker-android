@@ -8,6 +8,7 @@ defaults: &defaults
 aliases:
   - &build-docker
     name: Build Docker Image
+    no_output_timeout: 20m
     command: |
       docker build -t react-native-community/react-native .
       docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
