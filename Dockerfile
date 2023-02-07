@@ -87,6 +87,9 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         libgl1 \
         pulseaudio \
         socat \
+        # Dev dependencies required by linters
+        jq \
+        shellcheck \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
