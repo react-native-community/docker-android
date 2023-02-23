@@ -5,7 +5,7 @@ set -e
 export KOTLIN_HOME="third-party/kotlin"
 
 echo "Download Buck dependencies"
-./scripts/circleci/buck_fetch.sh
+./scripts/buck/buck_fetch.sh
 
 echo "Build React Native via Buck"
 buck build ReactAndroid/src/main/java/com/facebook/react
