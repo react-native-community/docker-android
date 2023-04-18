@@ -11,6 +11,7 @@ aliases:
     no_output_timeout: 20m
     command: |
       docker build -t react-native-community/react-native .
+      docker run --rm --name rb-env react-native-community/react-native bin/sh -c "ruby --version; bundle --version"
       docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
 
 jobs:
@@ -31,9 +32,6 @@ jobs:
     steps:
       - checkout
       - run: *build-docker
-      - run:
-          name: Check Ruby installation
-          command: docker run --rm --name rn-env react-native-community/react-native bin/sh -c "ruby --version; bundle --version"
       - run:
           name: Checkout React Native
           command: git clone https://github.com/facebook/react-native.git
