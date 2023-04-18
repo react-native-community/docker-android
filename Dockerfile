@@ -10,11 +10,13 @@ ARG SDK_VERSION=commandlinetools-linux-8512546_latest.zip
 ARG ANDROID_BUILD_VERSION=33
 ARG ANDROID_TOOLS_VERSION=33.0.0
 ARG NDK_VERSION=23.1.7779620
+ARG RUBY_VERSION=3.2.2
 ARG NODE_VERSION=16
 ARG WATCHMAN_VERSION=4.9.0
 ARG CMAKE_VERSION=3.22.1
 
 # set default environment variables, please don't remove old env for compatibilty issue
+ENV RBENV_PATH=/root/.rbenv
 ENV ADB_INSTALL_TIMEOUT=10
 ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_ROOT=${ANDROID_HOME}
@@ -23,7 +25,10 @@ ENV ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/$NDK_VERSION
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV CMAKE_BIN_PATH=${ANDROID_HOME}/cmake/$CMAKE_VERSION/bin
 
-ENV PATH=${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
+ENV PATH=${RBENV_PATH}/shims:${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
+
+# Disable documentation for Ruby
+ENV RUBY_CONFIGURE_OPTS=--disable-install-doc
 
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
@@ -44,8 +49,6 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         python3 \
         python3-distutils \
         rsync \
-        ruby \
-        ruby-dev \
         tzdata \
         unzip \
         sudo \
@@ -56,8 +59,15 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         # Dev dependencies required by linters
         jq \
         shellcheck \
-    && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
+
+# install ruby using rbenv
+RUN git clone https://github.com/rbenv/rbenv.git ${RBENV_PATH} \
+    && git clone https://github.com/rbenv/ruby-build.git ${RBENV_PATH}/plugins/ruby-build \
+    && eval "$(${RBENV_PATH}/bin/rbenv init -)" \
+    && rbenv install $RUBY_VERSION \
+    && rbenv global $RUBY_VERSION \
+    && gem install bundler
 
 # install nodejs using n
 RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n \
