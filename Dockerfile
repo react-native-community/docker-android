@@ -54,6 +54,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         sudo \
         ninja-build \
         zip \
+        # Dev dependencies required by Ruby
+        libz-dev \
         # Dev libraries requested by Hermes
         libicu-dev \
         # Dev dependencies required by linters
