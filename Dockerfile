@@ -52,6 +52,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         ninja-build \
         zip \
         # Dev dependencies required by Ruby
+        libtool \
+        libyaml-dev \
         libz-dev \
         # Dev libraries requested by Hermes
         libicu-dev \
@@ -64,7 +66,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
 RUN git clone https://github.com/rbenv/rbenv.git ${RBENV_PATH} \
     && git clone https://github.com/rbenv/ruby-build.git ${RBENV_PATH}/plugins/ruby-build \
     && eval "$(${RBENV_PATH}/bin/rbenv init -)" \
-    && CONFIGURE_OPTS="--disable-install-doc" rbenv install $RUBY_VERSION \
+    && rbenv install $RUBY_VERSION \
     && rbenv global $RUBY_VERSION \
     && gem install bundler
 
