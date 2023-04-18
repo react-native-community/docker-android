@@ -16,7 +16,7 @@ ARG WATCHMAN_VERSION=4.9.0
 ARG CMAKE_VERSION=3.22.1
 
 # set default environment variables, please don't remove old env for compatibilty issue
-ENV RBENV_PATH=/root/.rbenv
+ENV RBENV_ROOT=/root/.rbenv
 ENV ADB_INSTALL_TIMEOUT=10
 ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_ROOT=${ANDROID_HOME}
@@ -25,7 +25,7 @@ ENV ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/$NDK_VERSION
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV CMAKE_BIN_PATH=${ANDROID_HOME}/cmake/$CMAKE_VERSION/bin
 
-ENV PATH=${RBENV_PATH}/shims:${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
+ENV PATH=${RBENV_ROOT}/shims:${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
 
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
@@ -52,7 +52,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         ninja-build \
         zip \
         # Dev dependencies required by Ruby
-        libtool \
+        libssl-dev \
         libyaml-dev \
         libz-dev \
         # Dev libraries requested by Hermes
@@ -63,9 +63,9 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*;
 
 # install ruby using rbenv
-RUN git clone https://github.com/rbenv/rbenv.git ${RBENV_PATH} \
-    && git clone https://github.com/rbenv/ruby-build.git ${RBENV_PATH}/plugins/ruby-build \
-    && eval "$(${RBENV_PATH}/bin/rbenv init -)" \
+RUN git clone https://github.com/rbenv/rbenv.git ${RBENV_ROOT} \
+    && git clone https://github.com/rbenv/ruby-build.git ${RBENV_ROOT}/plugins/ruby-build \
+    && eval "$(${RBENV_ROOT}/bin/rbenv init -)" \
     && rbenv install $RUBY_VERSION \
     && rbenv global $RUBY_VERSION \
     && gem install bundler
