@@ -27,9 +27,6 @@ ENV CMAKE_BIN_PATH=${ANDROID_HOME}/cmake/$CMAKE_VERSION/bin
 
 ENV PATH=${RBENV_PATH}/shims:${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
 
-# Disable documentation for Ruby
-ENV RUBY_CONFIGURE_OPTS=--disable-install-doc
-
 # Install system dependencies
 RUN apt update -qq && apt install -qq -y --no-install-recommends \
         apt-transport-https \
@@ -67,7 +64,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
 RUN git clone https://github.com/rbenv/rbenv.git ${RBENV_PATH} \
     && git clone https://github.com/rbenv/ruby-build.git ${RBENV_PATH}/plugins/ruby-build \
     && eval "$(${RBENV_PATH}/bin/rbenv init -)" \
-    && rbenv install $RUBY_VERSION \
+    && CONFIGURE_OPTS="--disable-install-doc" rbenv install $RUBY_VERSION \
     && rbenv global $RUBY_VERSION \
     && gem install bundler
 
