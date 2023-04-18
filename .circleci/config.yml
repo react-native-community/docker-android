@@ -32,6 +32,9 @@ jobs:
       - checkout
       - run: *build-docker
       - run:
+          name: Check Ruby installation
+          command: docker run /bin/sh -c "ruby --version; bundle --version"
+      - run:
           name: Checkout React Native
           command: git clone https://github.com/facebook/react-native.git
       - run:
