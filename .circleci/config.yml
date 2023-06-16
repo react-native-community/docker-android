@@ -8,7 +8,7 @@ defaults: &defaults
 aliases:
   - &build-docker
     name: Build Docker Image
-    no_output_timeout: 20m
+    no_output_timeout: 30m
     command: |
       docker build -t react-native-community/react-native .
       docker run --rm --name rn-env react-native-community/react-native bin/sh -c "npx envinfo"
@@ -36,6 +36,7 @@ jobs:
           command: git clone https://github.com/facebook/react-native.git
       - run:
           name: Build React Native
+          no_output_timeout: 30m
           command: docker run --rm --ulimit nofile=10240 -v "$(pwd)/scripts/":/scripts -v "$(pwd)/react-native/":/react-native -w /react-native react-native-community/react-native /bin/sh -c "/scripts/test-react-native-setup.sh"
 
 workflows:
