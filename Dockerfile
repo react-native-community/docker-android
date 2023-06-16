@@ -38,6 +38,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         libgl1 \
         libtcmalloc-minimal4 \
         make \
+        # React Native compiles with JDK 11, RN Tester & template with JDK 17
+        openjdk-11-jdk-headless \
         openjdk-17-jdk-headless \
         openssh-client \
         patch \
