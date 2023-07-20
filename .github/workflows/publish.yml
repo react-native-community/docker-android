@@ -30,11 +30,13 @@ jobs:
           images: |
             reactnativecommunity/react-native-android
           tags: |
-            type=ref,event=pr
+            type=ref,event=tag
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}
       - name: Build & publish to Docker Hub
         uses: docker/build-push-action@v4
         with:
+          context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
