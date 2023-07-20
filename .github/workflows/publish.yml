@@ -1,8 +1,9 @@
 name: Publish
 on:
   pull_request:
-  release:
-    types: [published]
+  push:
+    tags:
+      - '*'
 
 jobs:
   publish_to_dockerhub:
