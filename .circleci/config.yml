@@ -2,7 +2,7 @@ version: 2
 
 defaults: &defaults
   machine:
-    image: ubuntu-2004:202201-02
+    image: ubuntu-2204:2024.01.2
   working_directory: ~/project
 
 aliases:
