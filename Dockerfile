@@ -81,3 +81,6 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android \
     && chmod 777 -R /opt/android
+
+# Disable git safe directory check as this is causing GHA to fail on GH Runners
+RUN git config --global --add safe.directory '*'
