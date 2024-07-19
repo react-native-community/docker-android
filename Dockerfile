@@ -51,6 +51,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         sudo \
         ninja-build \
         zip \
+        ccache \
         # Dev libraries requested by Hermes
         libicu-dev \
         # Dev dependencies required by linters
