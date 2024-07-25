@@ -27,7 +27,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           flavor: |
-            latest=true
+            latest=auto
           images: |
             reactnativecommunity/react-native-android
           tags: |
