@@ -51,6 +51,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         sudo \
         ninja-build \
         zip \
+        ccache \
         # Dev libraries requested by Hermes
         libicu-dev \
         # Dev dependencies required by linters
@@ -81,3 +82,6 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android \
     && chmod 777 -R /opt/android
+
+# Disable git safe directory check as this is causing GHA to fail on GH Runners
+RUN git config --global --add safe.directory '*'
