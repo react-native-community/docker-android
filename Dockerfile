@@ -6,11 +6,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
 # https://developer.android.com/studio#command-tools
-ARG SDK_VERSION=commandlinetools-linux-11076708_latest.zip
-ARG ANDROID_BUILD_VERSION=34
-ARG ANDROID_TOOLS_VERSION=34.0.0
+ARG SDK_VERSION=commandlinetools-linux-9477386_latest.zip
+ARG ANDROID_BUILD_VERSION=35
+ARG ANDROID_TOOLS_VERSION=35.0.0
 ARG NDK_VERSION=26.1.10909125
-ARG NODE_VERSION=18
+ARG NODE_VERSION=18.20
 ARG WATCHMAN_VERSION=4.9.0
 ARG CMAKE_VERSION=3.22.1
 
@@ -51,6 +51,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         sudo \
         ninja-build \
         zip \
+        ccache \
         # Dev libraries requested by Hermes
         libicu-dev \
         # Dev dependencies required by linters
@@ -81,3 +82,6 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android \
     && chmod 777 -R /opt/android
+
+# Disable git safe directory check as this is causing GHA to fail on GH Runners
+RUN git config --global --add safe.directory '*'
