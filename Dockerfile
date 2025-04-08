@@ -57,6 +57,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         # Dev dependencies required by linters
         jq \
         shellcheck \
+        # LLVM Dep needed for INTERPROCEDURAL_OPTIMIZATION
+        llvm-13-linker-tools \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
