@@ -12,7 +12,7 @@ ARG ANDROID_TOOLS_VERSION=35.0.0
 ARG NDK_VERSION=27.1.12297006
 ARG NODE_VERSION=20.18
 ARG WATCHMAN_VERSION=4.9.0
-ARG CMAKE_VERSION=3.22.1
+ARG CMAKE_VERSION=3.30.5
 
 # set default environment variables, please don't remove old env for compatibilty issue
 ENV ADB_INSTALL_TIMEOUT=10
@@ -79,6 +79,7 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "platforms;android-$ANDROID_BUILD_VERSION" \
         "build-tools;$ANDROID_TOOLS_VERSION" \
         "cmake;$CMAKE_VERSION" \
+        "cmake;3.22.1" \
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android \
     && chmod 777 -R /opt/android
