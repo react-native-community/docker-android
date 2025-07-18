@@ -2,7 +2,7 @@ const execSync = require("child_process").execSync;
 
 function publishDocker() {
   const now = new Date()
-  const repo = `reactnativecommunity/react-native-android`
+  const repo = `vasylnahuliak/react-native-android`
   const cmd =`
 docker login -u ${process.env.DOCKER_USER} -p ${process.env.DOCKER_PASS}
 docker build -t ${repo} .
