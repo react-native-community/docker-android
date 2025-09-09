@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 LABEL Description="This image provides a base Android development environment for React Native, and may be used to run tests."
 
@@ -20,7 +20,6 @@ ENV ANDROID_HOME=/opt/android
 ENV ANDROID_SDK_ROOT=${ANDROID_HOME}
 ENV ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/$NDK_VERSION
 
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV CMAKE_BIN_PATH=${ANDROID_HOME}/cmake/$CMAKE_VERSION/bin
 
 ENV PATH=${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
@@ -34,7 +33,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         git \
         g++ \
         gnupg2 \
-        libc++1-11 \
+        libc++1 \
         libgl1 \
         libtcmalloc-minimal4 \
         make \
@@ -42,7 +41,6 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         openssh-client \
         patch \
         python3 \
-        python3-distutils \
         rsync \
         ruby \
         ruby-dev \
