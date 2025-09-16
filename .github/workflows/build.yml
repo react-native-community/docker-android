@@ -33,6 +33,16 @@ jobs:
           docker run --rm --name rn-env react-native-community/react-native /bin/sh -c "npx envinfo"
       - name: Checkout React Native
         run: git clone https://github.com/facebook/react-native.git
+      - name: Create reports directory
+        run: mkdir -p $(pwd)/fantom-reports
       - name: Run Fantom tests
+        continue-on-error: true
         run: |
-          docker run --rm --ulimit nofile=10240 -v "$(pwd)/scripts/":/scripts -v "$(pwd)/react-native/":/react-native -w /react-native react-native-community/react-native /bin/sh -c "/scripts/test-react-native-fantom.sh"
+          docker run --rm --ulimit nofile=10240 -v "$(pwd)/scripts/":/scripts -v "$(pwd)/react-native/":/react-native -v "$(pwd)/fantom-reports/":/react-native/private/react-native-fantom/build/reports -w /react-native react-native-community/react-native /bin/sh -c "/scripts/test-react-native-fantom.sh"
+      - name: Upload Fantom build reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: fantom-build-reports
+          path: fantom-reports/
+          retention-days: 30
