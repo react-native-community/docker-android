@@ -29,10 +29,11 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         apt-transport-https \
         curl \
         file \
-        gcc-11 \
-        g++-11 \
+        gcc \
         git \
+        g++ \
         gnupg2 \
+        libc++1 \
         libgl1 \
         libtcmalloc-minimal4 \
         make \
@@ -55,10 +56,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         jq \
         shellcheck \
     && gem install bundler \
-    && rm -rf /var/lib/apt/lists/* \
-    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110 \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 110
-
+    && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs using n
 RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n \
