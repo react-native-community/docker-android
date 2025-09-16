@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-android:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
@@ -21,3 +21,18 @@ jobs:
       - name: Build React Native
         run: |
           docker run --rm --ulimit nofile=10240 -v "$(pwd)/scripts/":/scripts -v "$(pwd)/react-native/":/react-native -w /react-native react-native-community/react-native /bin/sh -c "/scripts/test-react-native-setup.sh"
+
+  build-fantom:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build Docker Image
+        run: |
+          docker build -t react-native-community/react-native .
+          docker run --rm --name rn-env react-native-community/react-native /bin/sh -c "npx envinfo"
+      - name: Checkout React Native
+        run: git clone https://github.com/facebook/react-native.git
+      - name: Build React Native
+        run: |
+          docker run --rm --ulimit nofile=10240 -v "$(pwd)/scripts/":/scripts -v "$(pwd)/react-native/":/react-native -w /react-native react-native-community/react-native /bin/sh -c "/scripts/test-react-native-fantom.sh"
