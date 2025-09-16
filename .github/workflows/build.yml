@@ -40,7 +40,7 @@ jobs:
         run: |
           docker run --rm --ulimit nofile=10240 -v "$(pwd)/scripts/":/scripts -v "$(pwd)/react-native/":/react-native -v "$(pwd)/fantom-reports/":/react-native/private/react-native-fantom/build/reports -w /react-native react-native-community/react-native /bin/sh -c "/scripts/test-react-native-fantom.sh"
       - name: Upload Fantom build reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: fantom-build-reports
