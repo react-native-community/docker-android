@@ -7,8 +7,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 # set default build arguments
 # https://developer.android.com/studio#command-tools
 ARG SDK_VERSION=commandlinetools-linux-11076708_latest.zip
-ARG ANDROID_BUILD_VERSION=36
-ARG ANDROID_TOOLS_VERSION=36.0.0
+# Android 17 (API 37) ships as a versioned platform package "platforms;android-37.0"
+# (the new <api>.<minor> scheme, cf. android-36.1); plain "android-37" does not exist.
+ARG ANDROID_BUILD_VERSION=37.0
+ARG ANDROID_TOOLS_VERSION=37.0.0
 ARG NDK_VERSION=27.1.12297006
 ARG NODE_VERSION=22.14
 ARG WATCHMAN_VERSION=4.9.0
