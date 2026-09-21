@@ -24,6 +24,13 @@ jobs:
             --depth 1 \
             --no-tags \
             https://github.com/facebook/react-native.git
+      - name: Verify preloaded Gradle Wrapper distribution
+        run: |
+          docker run --rm --network none \
+            -v "$(pwd)/react-native:/react-native" \
+            -w /react-native \
+            react-native-community/react-native \
+            ./gradlew --version
       - name: Build React Native
         run: |
           docker run --rm --ulimit nofile=10240 -v "$(pwd)/scripts/":/scripts -v "$(pwd)/react-native/":/react-native -w /react-native react-native-community/react-native /bin/sh -c "/scripts/test-react-native-setup.sh"

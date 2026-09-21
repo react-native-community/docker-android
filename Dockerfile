@@ -15,6 +15,7 @@ ARG NDK_VERSION=27.1.12297006
 ARG NODE_VERSION=22.14
 ARG WATCHMAN_VERSION=4.9.0
 ARG CMAKE_VERSION=3.30.5
+ARG GRADLE_VERSION=9.4.1
 
 # set default environment variables, please don't remove old env for compatibilty issue
 ENV ADB_INSTALL_TIMEOUT=10
@@ -24,6 +25,7 @@ ENV ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/$NDK_VERSION
 
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV CMAKE_BIN_PATH=${ANDROID_HOME}/cmake/$CMAKE_VERSION/bin
+ENV GRADLE_USER_HOME=/opt/gradle-home
 
 ENV PATH=${CMAKE_BIN_PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
 
@@ -65,6 +67,36 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         shellcheck \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
+
+# Seed the Gradle Wrapper cache used by React Native builds. GitHub Actions
+# replaces HOME inside job containers, so keep this cache at a stable path.
+RUN curl --fail --location --retry 5 --retry-all-errors \
+        --output /tmp/gradle-${GRADLE_VERSION}-bin.zip \
+        https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
+    && curl --fail --location --retry 5 --retry-all-errors \
+        --output /tmp/gradle-${GRADLE_VERSION}-bin.zip.sha256 \
+        https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip.sha256 \
+    && echo "$(cat /tmp/gradle-${GRADLE_VERSION}-bin.zip.sha256)  /tmp/gradle-${GRADLE_VERSION}-bin.zip" | sha256sum --check \
+    && unzip -q /tmp/gradle-${GRADLE_VERSION}-bin.zip -d /tmp \
+    && mkdir -p /tmp/gradle-wrapper-seed \
+    && touch /tmp/gradle-wrapper-seed/settings.gradle \
+    && /tmp/gradle-${GRADLE_VERSION}/bin/gradle \
+        --no-daemon \
+        --project-dir /tmp/gradle-wrapper-seed \
+        wrapper \
+        --gradle-version ${GRADLE_VERSION} \
+        --distribution-type bin \
+    && sed -i 's/networkTimeout=10000/networkTimeout=60000/' \
+        /tmp/gradle-wrapper-seed/gradle/wrapper/gradle-wrapper.properties \
+    && echo "distributionSha256Sum=$(cat /tmp/gradle-${GRADLE_VERSION}-bin.zip.sha256)" \
+        >> /tmp/gradle-wrapper-seed/gradle/wrapper/gradle-wrapper.properties \
+    && /tmp/gradle-wrapper-seed/gradlew --no-daemon --version \
+    && rm -rf \
+        /tmp/gradle-${GRADLE_VERSION} \
+        /tmp/gradle-${GRADLE_VERSION}-bin.zip \
+        /tmp/gradle-${GRADLE_VERSION}-bin.zip.sha256 \
+        /tmp/gradle-wrapper-seed \
+    && chmod -R a+rwX ${GRADLE_USER_HOME}
 
 # install nodejs using n
 RUN curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n \

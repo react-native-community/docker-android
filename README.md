@@ -13,4 +13,9 @@ https://github.com/react-native-community/ci-sample
 ## Dockerhub Image
 see https://hub.docker.com/r/reactnativecommunity/react-native-android/
 
+The image preloads the Gradle Wrapper distribution selected by the
+`GRADLE_VERSION` build argument. Its wrapper cache is stored in
+`GRADLE_USER_HOME=/opt/gradle-home`, so `./gradlew` can start without
+downloading Gradle in ephemeral CI containers.
+
 Original version is split from react-native repo, see https://github.com/facebook/react-native/blob/988366a4179d87d667e5d9396efdfba4cbbe0b2e/ContainerShip/Dockerfile.android-base.
